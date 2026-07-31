@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import TypedHeading from './TypedHeading'
 
 export default function About() {
   return (
@@ -15,9 +16,7 @@ export default function About() {
         transition={{ duration: 0.6, ease: 'easeOut' }}
         className="max-w-3xl mx-auto w-full"
       >
-        <h2 className="section-heading">
-          <span className="text-accent">$</span> cat about.txt
-        </h2>
+        <TypedHeading command="cat about.txt" />
 
         <div className="space-y-5 text-base sm:text-lg leading-relaxed text-muted">
           <p>
@@ -46,18 +45,6 @@ export default function About() {
           <span className="text-white/10">|</span>
           <span className="text-accent">location</span>
           <span className="text-white/40">Ottawa, ON</span>
-        </div>
-
-        <div className="mt-16 pt-6 border-t border-white/[0.04] flex gap-4 text-xs font-mono">
-          <span className="text-accent">about</span>
-          <span className="text-muted/30">/</span>
-          <a href="#projects" className="text-muted hover:text-accent transition-colors duration-200 uppercase tracking-wider">
-            projects
-          </a>
-          <span className="text-muted/30">/</span>
-          <a href="#skills" className="text-muted hover:text-accent transition-colors duration-200 uppercase tracking-wider">
-            skills
-          </a>
         </div>
       </motion.div>
     </section>

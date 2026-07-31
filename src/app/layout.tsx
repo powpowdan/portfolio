@@ -18,6 +18,9 @@ export const metadata: Metadata = {
   title: 'Dan Brown | Senior Full-Stack Web Developer',
   description:
     'Senior Full-Stack Web Developer based in Ottawa. 4+ years engineering secure, high-availability web solutions.',
+  icons: {
+    icon: '/favicon.svg',
+  },
 }
 
 export default function RootLayout({

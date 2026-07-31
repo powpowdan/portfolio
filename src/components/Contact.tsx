@@ -46,9 +46,18 @@ export default function Contact() {
           </div>
         </div>
 
-        <div className="mt-12 pt-6 border-t border-white/[0.04] flex items-center justify-between text-[11px] font-mono text-muted/40">
-          <span>© {new Date().getFullYear()} Dan Brown</span>
-          <span className="hidden sm:inline">built with Next.js + Tailwind</span>
+        <div className="mt-12 pt-6 border-t border-white/[0.04] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-[11px] font-mono">
+          <div className="flex items-center gap-3 text-muted/40">
+            <span>© {new Date().getFullYear()} Dan Brown</span>
+            <span className="hidden sm:inline text-white/10">|</span>
+            <a
+              href="/resume.docx"
+              className="text-muted/40 hover:text-accent transition-colors duration-200"
+            >
+              $ wget resume.docx
+            </a>
+          </div>
+          <span className="text-muted/40">built with Next.js + Tailwind</span>
         </div>
       </motion.div>
     </section>

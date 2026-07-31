@@ -44,7 +44,7 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 3.2, duration: 0.6 }}
+              transition={{ delay: 4.2, duration: 0.6 }}
               className="flex gap-4 pt-2"
             >
               <a

@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import TypedHeading from './TypedHeading'
 
 const skillGroups = [
   {
@@ -42,9 +43,7 @@ export default function Skills() {
         transition={{ duration: 0.6, ease: 'easeOut' }}
         className="max-w-3xl mx-auto w-full"
       >
-        <h2 className="section-heading">
-          <span className="text-accent">$</span> cat skills.json
-        </h2>
+        <TypedHeading command="cat skills.json" />
 
         <div className="grid gap-8 sm:grid-cols-2">
           {skillGroups.map((group, i) => (
@@ -67,18 +66,6 @@ export default function Skills() {
               </div>
             </motion.div>
           ))}
-        </div>
-
-        <div className="mt-16 pt-6 border-t border-white/[0.04] flex gap-4 text-xs font-mono">
-          <a href="#about" className="text-muted hover:text-accent transition-colors duration-200 uppercase tracking-wider">
-            about
-          </a>
-          <span className="text-muted/30">/</span>
-          <a href="#projects" className="text-muted hover:text-accent transition-colors duration-200 uppercase tracking-wider">
-            projects
-          </a>
-          <span className="text-muted/30">/</span>
-          <span className="text-accent">skills</span>
         </div>
       </motion.div>
     </section>
