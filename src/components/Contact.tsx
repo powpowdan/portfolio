@@ -17,7 +17,7 @@ export default function Contact() {
             <p className="text-xs font-mono text-muted mb-1 tracking-widest uppercase">
               get in touch
             </p>
-            <p className="font-mono text-sm text-white/60">
+            <p className="font-mono text-base text-white/70">
               daniel.brown.gov@gmail.com
             </p>
           </div>

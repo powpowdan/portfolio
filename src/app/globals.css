@@ -86,7 +86,7 @@ body {
 
 @layer components {
   .section-heading {
-    @apply font-mono text-sm tracking-widest uppercase text-muted mb-8;
+    @apply font-mono text-base sm:text-lg tracking-widest uppercase text-muted mb-8;
   }
 
   .card {
