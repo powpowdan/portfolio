@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 
 const TYPING_SPEED = 80
@@ -14,11 +14,18 @@ export default function TerminalText() {
   const [displayed, setDisplayed] = useState('')
   const [phase, setPhase] = useState<Phase>('typing-hello')
   const [showCursor, setShowCursor] = useState(true)
+  const reduceMotion = useReducedMotion()
 
   const helloWorld = 'Hello World'
   const namePart = "Hello, I'm Dan"
 
   useEffect(() => {
+    if (reduceMotion) {
+      setDisplayed(namePart)
+      setPhase('done')
+      return
+    }
+
     let timeout: NodeJS.Timeout
 
     if (phase === 'typing-hello') {
@@ -50,19 +57,19 @@ export default function TerminalText() {
     }
 
     return () => clearTimeout(timeout)
-  }, [phase, displayed, helloWorld, namePart])
+  }, [phase, displayed, helloWorld, namePart, reduceMotion])
 
   useEffect(() => {
-    if (phase !== 'done') return
+    if (phase !== 'done' || reduceMotion) return
     const interval = setInterval(() => {
       setShowCursor((c) => !c)
     }, 530)
     return () => clearInterval(interval)
-  }, [phase])
+  }, [phase, reduceMotion])
 
   return (
     <div className="inline-flex items-baseline">
-      <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-mono font-light tracking-tight">
+      <span className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-mono font-light tracking-tight">
         {displayed}
       </span>
       {phase === 'done' ? (

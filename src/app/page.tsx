@@ -12,7 +12,7 @@ export default function Home() {
     <SectionProvider>
       <BackgroundEffects />
       <SectionNav />
-      <main className="relative z-10 min-h-screen">
+      <main className="relative z-10 min-h-screen pb-28 lg:pb-0">
         <Hero />
         <About />
         <Projects />

@@ -30,7 +30,7 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="min-h-screen flex flex-col justify-center px-6 sm:px-8 py-24"
+      className="min-h-screen flex flex-col justify-center px-6 sm:px-8 py-16 sm:py-24"
     >
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -77,13 +77,13 @@ export default function Projects() {
               <div className="flex gap-4">
                 <a
                   href={project.links.github}
-                  className="text-xs font-mono text-muted hover:text-accent transition-colors duration-200"
+                  className="tap-target text-xs font-mono text-muted hover:text-accent transition-colors duration-200"
                 >
                   github →
                 </a>
                 <a
                   href={project.links.live}
-                  className="text-xs font-mono text-muted hover:text-accent transition-colors duration-200"
+                  className="tap-target text-xs font-mono text-muted hover:text-accent transition-colors duration-200"
                 >
                   live demo →
                 </a>

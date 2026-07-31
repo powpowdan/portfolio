@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useInView } from 'framer-motion'
+import { useInView, useReducedMotion } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
 
 interface TypedHeadingProps {
@@ -13,10 +13,17 @@ export default function TypedHeading({ command }: TypedHeadingProps) {
   const isInView = useInView(ref, { once: true, margin: '-80px' })
   const [displayed, setDisplayed] = useState('')
   const [done, setDone] = useState(false)
+  const reduceMotion = useReducedMotion()
 
   const fullText = `$ ${command}`
 
   useEffect(() => {
+    if (reduceMotion) {
+      setDisplayed(fullText)
+      setDone(true)
+      return
+    }
+
     if (!isInView || done) return
 
     if (displayed.length < fullText.length) {
@@ -27,7 +34,7 @@ export default function TypedHeading({ command }: TypedHeadingProps) {
     } else {
       setDone(true)
     }
-  }, [isInView, displayed, done, fullText])
+  }, [isInView, displayed, done, fullText, reduceMotion])
 
   return (
     <div ref={ref} className="section-heading">

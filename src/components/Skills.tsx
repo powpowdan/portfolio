@@ -34,7 +34,7 @@ export default function Skills() {
   return (
     <section
       id="skills"
-      className="min-h-screen flex flex-col justify-center px-6 sm:px-8 py-24"
+      className="min-h-screen flex flex-col justify-center px-6 sm:px-8 py-16 sm:py-24"
     >
       <motion.div
         initial={{ opacity: 0, y: 30 }}

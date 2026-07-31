@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 
 export default function Contact() {
   return (
-    <section className="px-6 sm:px-8 py-24 border-t border-white/[0.04]">
+    <section className="px-6 sm:px-8 py-16 sm:py-24 border-t border-white/[0.04]">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -25,7 +25,7 @@ export default function Contact() {
           <div className="flex gap-6">
             <a
               href="mailto:daniel.brown.gov@gmail.com"
-              className="text-xs font-mono text-muted hover:text-accent transition-colors duration-200 tracking-wider uppercase"
+              className="tap-target text-xs font-mono text-muted hover:text-accent transition-colors duration-200 tracking-wider uppercase"
             >
               email
             </a>
@@ -33,13 +33,13 @@ export default function Contact() {
               href="https://github.com/powpowdan"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs font-mono text-muted hover:text-accent transition-colors duration-200 tracking-wider uppercase"
+              className="tap-target text-xs font-mono text-muted hover:text-accent transition-colors duration-200 tracking-wider uppercase"
             >
               github
             </a>
             <a
               href="#"
-              className="text-xs font-mono text-muted hover:text-accent transition-colors duration-200 tracking-wider uppercase"
+              className="tap-target text-xs font-mono text-muted hover:text-accent transition-colors duration-200 tracking-wider uppercase"
             >
               linkedin
             </a>
@@ -52,7 +52,7 @@ export default function Contact() {
             <span className="hidden sm:inline text-white/10">|</span>
             <a
               href="/resume.docx"
-              className="text-muted/40 hover:text-accent transition-colors duration-200"
+              className="tap-target text-muted/40 hover:text-accent transition-colors duration-200"
             >
               $ wget resume.docx
             </a>
