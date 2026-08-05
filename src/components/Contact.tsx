@@ -2,7 +2,11 @@
 
 import { motion } from 'framer-motion'
 
-export default function Contact() {
+interface ContactProps {
+  gitSha?: string
+}
+
+export default function Contact({ gitSha }: ContactProps) {
   return (
     <section className="px-6 sm:px-8 py-16 sm:py-24 border-t border-white/[0.04]">
       <motion.div
@@ -47,7 +51,7 @@ export default function Contact() {
         </div>
 
         <div className="mt-12 pt-6 border-t border-white/[0.04] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-[11px] font-mono">
-          <div className="flex items-center gap-3 text-muted/40">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-muted/40">
             <span>© {new Date().getFullYear()} Dan Brown</span>
             <span className="hidden sm:inline text-white/10">|</span>
             <a
@@ -56,6 +60,10 @@ export default function Contact() {
             >
               $ wget resume.docx
             </a>
+            <span className="hidden sm:inline text-white/10">|</span>
+            <span className="text-muted/30">
+              build {gitSha ?? 'unknown'}
+            </span>
           </div>
           <span className="text-muted/40">built with Next.js + Tailwind</span>
         </div>

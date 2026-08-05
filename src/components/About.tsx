@@ -1,7 +1,23 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import TypedHeading from './TypedHeading'
+import ScrambleHeading from './terminal/effects/ScrambleHeading'
+
+const focusAreas = [
+  'Full-Stack',
+  'DevOps',
+  'Automation',
+  'Infrastructure',
+  'AI / LLMs',
+  'Accessibility (WCAG)',
+]
+
+const meta = [
+  { k: 'role', v: 'Full-Stack Developer' },
+  { k: 'location', v: 'Ottawa, ON' },
+  { k: 'clearance', v: 'Secret' },
+  { k: 'stack', v: 'Linux · AI · Cloud' },
+]
 
 export default function About() {
   return (
@@ -16,35 +32,54 @@ export default function About() {
         transition={{ duration: 0.6, ease: 'easeOut' }}
         className="max-w-3xl mx-auto w-full"
       >
-        <TypedHeading command="cat about.txt" />
+        <ScrambleHeading command="cat about.txt" />
 
-        <div className="space-y-5 text-base sm:text-lg leading-relaxed text-muted">
-          <p>
-            I&apos;m a Senior Full-Stack Web Developer with 4+ years of experience
-            engineering secure, high-availability web solutions in the federal
-            government. I architect automation tools, manage complex deployments,
-            and build systems that can handle millions of users without breaking a
-            sweat.
-          </p>
-          <p>
-            I served as <span className="text-white/70">Co-Lead Developer</span> for 4
-            Federal Budgets and Fall Economic Statements — managing rapid-response
-            code updates under strict embargo conditions, working directly with the
-            Minister&apos;s Office to ensure flawless delivery.
-          </p>
-          <p>
-            I&apos;m equally comfortable building a Python automation generator,
-            wrangling a React front end, or setting up Git workflows for an entire
-            team. Always learning, always shipping.
-          </p>
-        </div>
+        <div className="card p-6 sm:p-8 space-y-8">
+          <div className="space-y-4 text-base sm:text-lg leading-relaxed text-muted">
+            <p>
+              <span className="text-accent font-mono">day</span>
+              <span className="mx-2 text-white/20">—</span>
+              Building large-scale web applications, automated workflows, system
+              administration, server infrastructure, and reliable deployments
+              for high-profile projects.
+            </p>
+            <p>
+              <span className="text-accent font-mono">night</span>
+              <span className="mx-2 text-white/20">—</span>
+              Driven by passion and curiosity, powered by Linux and AI. Apps,
+              servers, automations, and custom software for myself and the
+              world.
+            </p>
+          </div>
 
-        <div className="mt-8 flex items-center gap-4 text-sm font-mono text-muted">
-          <span className="text-accent">clearance</span>
-          <span className="text-white/40">secret</span>
-          <span className="text-white/10">|</span>
-          <span className="text-accent">location</span>
-          <span className="text-white/40">Ottawa, ON</span>
+          <div>
+            <h3 className="font-mono text-xs text-accent uppercase tracking-widest mb-3">
+              {'// '}focus
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {focusAreas.map((area, i) => (
+                <motion.span
+                  key={area}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.08, duration: 0.4 }}
+                  className="tech-badge"
+                >
+                  {area}
+                </motion.span>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-x-8 gap-y-3 pt-6 border-t border-white/[0.04] font-mono text-sm">
+            {meta.map(({ k, v }) => (
+              <div key={k} className="flex justify-between gap-4">
+                <span className="text-accent">{k}</span>
+                <span className="text-muted text-right">{v}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </motion.div>
     </section>

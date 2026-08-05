@@ -6,8 +6,10 @@ import About from '@/components/About'
 import Projects from '@/components/Projects'
 import Skills from '@/components/Skills'
 import Contact from '@/components/Contact'
+import { getGitSha } from '@/lib/terminal/gitSha'
 
 export default function Home() {
+  const gitSha = getGitSha()
   return (
     <SectionProvider>
       <BackgroundEffects />
@@ -17,7 +19,7 @@ export default function Home() {
         <About />
         <Projects />
         <Skills />
-        <Contact />
+        <Contact gitSha={gitSha} />
       </main>
     </SectionProvider>
   )

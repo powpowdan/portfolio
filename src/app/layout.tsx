@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
+import ConsoleSignature from '@/components/terminal/ConsoleSignature'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -15,9 +16,9 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Dan Brown | Senior Full-Stack Web Developer',
+  title: 'Dan Brown | Full-Stack Developer',
   description:
-    'Senior Full-Stack Web Developer based in Ottawa. 4+ years engineering secure, high-availability web solutions.',
+    'True Full-Stack Developer based in Ottawa.',
   icons: {
     icon: '/favicon.svg',
   },
@@ -35,7 +36,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
-      <body className="font-sans">{children}</body>
+      <body className="font-sans">
+        {children}
+        <ConsoleSignature />
+      </body>
     </html>
   )
 }

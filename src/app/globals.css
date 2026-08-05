@@ -115,4 +115,97 @@ body {
   .terminal-border {
     border-color: rgba(255, 255, 255, 0.06);
   }
+
+  .chromatic-hover {
+    transition: text-shadow 0.18s ease-out;
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .chromatic-hover:hover {
+      text-shadow:
+        -1px 0 rgba(0, 212, 255, 0.45),
+        1px 0 rgba(255, 0, 128, 0.35);
+    }
+  }
+}
+
+@keyframes signal-burst {
+  0% {
+    transform: translateX(-30%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(20%);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+}
+
+@keyframes glitch-in {
+  0% {
+    opacity: 0;
+    transform: translateY(6px) translateX(0);
+    clip-path: inset(48% 0 48% 0);
+  }
+  12% {
+    opacity: 0.45;
+    transform: translateY(2px) translateX(-4px);
+    clip-path: inset(8% 0 82% 0);
+  }
+  22% {
+    opacity: 0.2;
+    transform: translateY(0) translateX(5px);
+    clip-path: inset(78% 0 6% 0);
+  }
+  35% {
+    opacity: 0.65;
+    transform: translateY(0) translateX(-2px);
+    clip-path: inset(22% 0 18% 0);
+    filter: drop-shadow(2px 0 rgba(0, 212, 255, 0.45)) drop-shadow(-2px 0 rgba(255, 0, 128, 0.35));
+  }
+  50% {
+    opacity: 0.85;
+    transform: translateY(0) translateX(1px);
+    clip-path: inset(0);
+    filter: drop-shadow(1.5px 0 rgba(0, 212, 255, 0.25)) drop-shadow(-1.5px 0 rgba(255, 0, 128, 0.2));
+  }
+  70% {
+    opacity: 0.95;
+    transform: translateY(0) translateX(0);
+    filter: drop-shadow(0.5px 0 rgba(0, 212, 255, 0.1));
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) translateX(0);
+    clip-path: inset(0);
+    filter: none;
+  }
+}
+
+.glitch-in {
+  animation: glitch-in 0.55s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glitch-in {
+    animation: none;
+    opacity: 0;
+    animation: glitch-fade 0.3s ease-out forwards;
+  }
+
+  @keyframes glitch-fade {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+}
+
+.grayscale {
+  filter: grayscale(0.85) brightness(0.85);
+  transition: filter 1200ms ease-out;
 }

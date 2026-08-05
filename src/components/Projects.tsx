@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import TypedHeading from './TypedHeading'
+import ScrambleHeading from './terminal/effects/ScrambleHeading'
 
 const projects = [
   {
@@ -39,7 +39,7 @@ export default function Projects() {
         transition={{ duration: 0.6, ease: 'easeOut' }}
         className="max-w-3xl mx-auto w-full"
       >
-        <TypedHeading command="ls -la projects/" />
+        <ScrambleHeading command="ls -la projects/" />
 
         <div className="grid gap-6 sm:grid-cols-2">
           {projects.map((project, i) => (

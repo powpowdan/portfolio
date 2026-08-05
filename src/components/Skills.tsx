@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import TypedHeading from './TypedHeading'
+import ScrambleHeading from './terminal/effects/ScrambleHeading'
 
 const skillGroups = [
   {
@@ -43,7 +43,7 @@ export default function Skills() {
         transition={{ duration: 0.6, ease: 'easeOut' }}
         className="max-w-3xl mx-auto w-full"
       >
-        <TypedHeading command="cat skills.json" />
+        <ScrambleHeading command="cat skills.json" />
 
         <div className="grid gap-8 sm:grid-cols-2">
           {skillGroups.map((group, i) => (
