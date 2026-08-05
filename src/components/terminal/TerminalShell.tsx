@@ -49,10 +49,14 @@ export default function TerminalShell({ onCommandSubmitted }: TerminalShellProps
   }, [armIdle, state.lines.length])
 
   useEffect(() => {
-    if (state.lines.length === 0) return
     const el = outputRef.current
-    if (el) el.scrollTop = el.scrollHeight
-  }, [state.lines])
+    if (!el) return
+    const observer = new MutationObserver(() => {
+      el.scrollTop = el.scrollHeight
+    })
+    observer.observe(el, { childList: true, subtree: true, characterData: true })
+    return () => observer.disconnect()
+  }, [])
 
   useEffect(() => {
     function onGlitch() {
@@ -158,7 +162,12 @@ export default function TerminalShell({ onCommandSubmitted }: TerminalShellProps
           const el = document.getElementById(id)
           if (el) el.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' })
         },
-        clearScreen: () => dispatch({ type: 'CLEAR' }),
+        clearScreen: () => {
+          dispatch({ type: 'CLEAR' })
+          if (outputRef.current) outputRef.current.scrollTop = 0
+          window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' })
+          focusPrompt()
+        },
       }
 
       try {
@@ -179,7 +188,7 @@ export default function TerminalShell({ onCommandSubmitted }: TerminalShellProps
       }
       armIdle()
     },
-    [state.input, state.history, reduceMotion, armIdle, onCommandSubmitted],
+    [state.input, state.history, reduceMotion, armIdle, onCommandSubmitted, focusPrompt],
   )
 
   const handleTab = useCallback(() => {
@@ -209,7 +218,7 @@ export default function TerminalShell({ onCommandSubmitted }: TerminalShellProps
         ref={outputRef}
         aria-live="polite"
         aria-label="terminal output"
-        className={`space-y-1.5 ${state.lines.length > 0 ? 'mt-1' : ''}`}
+        className={`terminal-scroll space-y-1.5 max-h-56 overflow-y-auto ${state.lines.length > 0 ? 'mt-1' : ''}`}
       >
         {state.lines.map((line) => (
           <OutputLine key={line.id} line={line} />

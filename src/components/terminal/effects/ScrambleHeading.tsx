@@ -26,7 +26,7 @@ export default function ScrambleHeading({ command }: ScrambleHeadingProps) {
     if (!isInView || done) return
 
     let frame = 0
-    const totalFrames = fullText.length * 3
+    const totalFrames = fullText.length * 2
     let raf = 0
 
     const step = () => {

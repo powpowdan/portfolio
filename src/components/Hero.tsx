@@ -16,7 +16,7 @@ export default function Hero() {
   }, [nameDone])
 
   return (
-    <section className="min-h-screen flex flex-col justify-center px-6 sm:px-8">
+    <section className="min-h-screen flex flex-col justify-center px-6 sm:px-8 pt-16 sm:pt-24">
       <h1 className="sr-only">Dan Brown — Full-Stack Developer</h1>
       <div className="max-w-3xl mx-auto w-full space-y-8">
         <div className="space-y-4">

@@ -65,9 +65,7 @@ export default function NameReveal({ skip, onDone }: NameRevealProps) {
   return (
     <div className="font-mono text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-light tracking-tight text-white/90 leading-tight">
       <span>{displayed}</span>
-      {phase === 'done' && (
-        <span className="inline-block w-[3px] h-[0.8em] bg-accent ml-1 self-center animate-blink" />
-      )}
+      <span className="inline-block w-[3px] h-[0.8em] bg-accent ml-1 self-center animate-blink" />
     </div>
   )
 }
