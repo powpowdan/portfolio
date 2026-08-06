@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useReducedMotion } from 'framer-motion'
 import type { TypingChunk } from './registry/types'
 
 interface TypingProps {
@@ -17,7 +16,6 @@ interface RenderedChunk {
 }
 
 export default function Typing({ chunks, speed = 30, onDone }: TypingProps) {
-  const reduceMotion = useReducedMotion()
   const [done, setDone] = useState(false)
   const [rendered, setRendered] = useState<RenderedChunk[]>([])
   const [current, setCurrent] = useState<{ text: string; className?: string } | null>(null)
@@ -31,13 +29,6 @@ export default function Typing({ chunks, speed = 30, onDone }: TypingProps) {
         if (cancelled) return
         await sleep(chunk.delayMs ?? 0)
         if (cancelled) return
-        if (reduceMotion) {
-          setRendered((prev) => [
-            ...prev,
-            { text: chunk.text, className: chunk.className, newline: chunk.newline },
-          ])
-          continue
-        }
         await typeChunk(chunk)
         if (cancelled) return
       }
@@ -83,7 +74,7 @@ export default function Typing({ chunks, speed = 30, onDone }: TypingProps) {
       clearTimeout(timer)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reduceMotion, speed])
+  }, [speed])
 
   return (
     <span className={done ? '' : 'whitespace-pre-wrap'}>

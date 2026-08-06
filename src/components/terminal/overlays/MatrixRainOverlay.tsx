@@ -1,18 +1,15 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { useReducedMotion } from 'framer-motion'
 
 interface MatrixRainOverlayProps {
   onDismiss: () => void
 }
 
 export default function MatrixRainOverlay({ onDismiss }: MatrixRainOverlayProps) {
-  const reduceMotion = useReducedMotion() ?? false
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
-    if (reduceMotion) return
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext('2d')
@@ -60,20 +57,7 @@ export default function MatrixRainOverlay({ onDismiss }: MatrixRainOverlayProps)
       cancelAnimationFrame(raf)
       window.removeEventListener('resize', resize)
     }
-  }, [reduceMotion])
-
-  if (reduceMotion) {
-    return (
-      <div
-        className="fixed inset-0 z-[200] bg-black/95 flex items-center justify-center cursor-pointer"
-        onClick={onDismiss}
-      >
-        <p className="font-mono text-accent text-sm tracking-widest">
-          wake up. the matrix has you. (reduced-motion: rain disabled)
-        </p>
-      </div>
-    )
-  }
+  }, [])
 
   return (
     <div

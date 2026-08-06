@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 interface SignalBurstProps {
   onDone: () => void
@@ -19,8 +20,9 @@ export default function SignalBurst({ onDone }: SignalBurstProps) {
   }, [onDone])
 
   if (!visible) return null
+  if (typeof document === 'undefined') return null
 
-  return (
+  return createPortal(
     <div
       aria-hidden="true"
       className="fixed inset-0 z-[300] pointer-events-none"
@@ -42,6 +44,7 @@ export default function SignalBurst({ onDone }: SignalBurstProps) {
           transform: 'translateX(-50%)',
         }}
       />
-    </div>
+    </div>,
+    document.body,
   )
 }

@@ -94,9 +94,6 @@ function hackCommand(): Command {
     keywords: ['hack', 'glitch', 'matrix', 'cool', 'break'],
     man: { description: 'Hack the planet. (Triggers a glitch burst.)' },
     run: (ctx) => {
-      if (ctx.reduceMotion) {
-        return `hacking... (reduced-motion: visual burst disabled)`
-      }
       ctx.triggerGlitch()
       const lines = [
         `initializing intrusion countermeasures...`,

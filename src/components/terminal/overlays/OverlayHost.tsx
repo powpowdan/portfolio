@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
-import { useReducedMotion } from 'framer-motion'
+import { useEffect, type ReactNode } from 'react'
+import { createPortal } from 'react-dom'
 import type { ActiveOverlay } from '../registry/types'
 import BreatheOverlay from './BreatheOverlay'
 import MatrixRainOverlay from './MatrixRainOverlay'
@@ -15,32 +15,31 @@ interface OverlayHostProps {
 
 export default function OverlayHost({ overlay, onDismiss }: OverlayHostProps) {
   useEffect(() => {
-    function onKey() {
-      onDismiss()
-      window.removeEventListener('keydown', onKey)
-      window.removeEventListener('click', onKey)
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onDismiss()
     }
     window.addEventListener('keydown', onKey)
-    window.addEventListener('click', onKey)
-    return () => {
-      window.removeEventListener('keydown', onKey)
-      window.removeEventListener('click', onKey)
-    }
+    return () => window.removeEventListener('keydown', onKey)
   }, [onDismiss])
 
+  let content: ReactNode = null
   switch (overlay.kind) {
     case 'breathe':
-      return <BreatheOverlay mode={overlay.props?.mode ?? 'calm'} onDismiss={onDismiss} />
+      content = <BreatheOverlay mode={overlay.props?.mode ?? 'calm'} onDismiss={onDismiss} />
+      break
     case 'matrix':
-      return <MatrixRainOverlay onDismiss={onDismiss} />
+      content = <MatrixRainOverlay onDismiss={onDismiss} />
+      break
     case 'wick':
-      return <WickDesatOverlay onDismiss={onDismiss} />
+      content = <WickDesatOverlay onDismiss={onDismiss} />
+      break
     case 'drive':
-      return <DriveWashOverlay onDismiss={onDismiss} />
+      content = <DriveWashOverlay onDismiss={onDismiss} />
+      break
     default:
-      return null
+      content = null
   }
-}
 
-void useRef
-void useReducedMotion
+  if (typeof document === 'undefined') return null
+  return createPortal(content, document.body)
+}

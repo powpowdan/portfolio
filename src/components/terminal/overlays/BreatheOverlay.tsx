@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { useReducedMotion } from 'framer-motion'
 
 interface BreatheOverlayProps {
   mode: 'calm' | 'fight'
@@ -27,7 +26,6 @@ const FIGHT_CYCLE: Phase[] = [
 ]
 
 export default function BreatheOverlay({ mode, onDismiss }: BreatheOverlayProps) {
-  const reduceMotion = useReducedMotion() ?? false
   const cycle = mode === 'fight' ? FIGHT_CYCLE : CALM_CYCLE
   const [phaseIdx, setPhaseIdx] = useState(0)
   const dismissedRef = useRef(false)
@@ -40,7 +38,6 @@ export default function BreatheOverlay({ mode, onDismiss }: BreatheOverlayProps)
   }, [])
 
   useEffect(() => {
-    if (reduceMotion) return
     let i = phaseIdx
     let timer: ReturnType<typeof setTimeout>
     function tick() {
@@ -52,7 +49,7 @@ export default function BreatheOverlay({ mode, onDismiss }: BreatheOverlayProps)
     timer = setTimeout(tick, cycle[phaseIdx].ms)
     return () => clearTimeout(timer)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reduceMotion])
+  }, [])
 
   const phase = cycle[phaseIdx]
 
@@ -70,8 +67,8 @@ export default function BreatheOverlay({ mode, onDismiss }: BreatheOverlayProps)
           style={{
             width: '40vmin',
             height: '40vmin',
-            transform: reduceMotion ? 'scale(1.2)' : `scale(${phase.scale})`,
-            transitionDuration: reduceMotion ? '0ms' : `${phase.ms}ms`,
+            transform: `scale(${phase.scale})`,
+            transitionDuration: `${phase.ms}ms`,
             boxShadow: '0 0 80px rgba(0, 212, 255, 0.15)',
           }}
         />
@@ -80,7 +77,7 @@ export default function BreatheOverlay({ mode, onDismiss }: BreatheOverlayProps)
             {phase.name}
           </p>
           <p className="mt-3 font-mono text-xs text-muted/60 tracking-wider uppercase">
-            {mode} · press any key to exit
+            {mode} · press Esc or click to exit
           </p>
         </div>
       </div>

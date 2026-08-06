@@ -21,12 +21,6 @@ const WHOAMI_VARIANTS = [
   'guest · the construct sees you',
 ] as const
 
-const PWD_VARIANTS = [
-  '/home/dan',
-  '~',
-  '/home/dan/portfolio.sh',
-] as const
-
 const PRACTICE_VARIANTS = [
   'chef · muay thai · code',
   'kitchen · ring · keyboard',
@@ -62,8 +56,8 @@ function pwdCommand(): Command {
     name: 'pwd',
     description: 'where are you',
     keywords: ['path', 'dir', 'location', 'where'],
-    man: { description: 'Print the current directory.' },
-    run: () => pick(PWD_VARIANTS),
+    man: { description: 'Print the current working directory.' },
+    run: (ctx) => ctx.cwd,
   }
 }
 

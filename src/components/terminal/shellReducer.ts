@@ -6,6 +6,7 @@ export interface ShellLine {
   kind: 'prompt' | 'output' | 'whisper'
   text?: string
   node?: ReactNode
+  cwd?: string
 }
 
 export interface ShellState {
@@ -17,6 +18,7 @@ export interface ShellState {
   bootComplete: boolean
   bootVisible: boolean
   signalBurst: boolean
+  cwd: string
 }
 
 export const initialState: ShellState = {
@@ -28,6 +30,7 @@ export const initialState: ShellState = {
   bootComplete: false,
   bootVisible: true,
   signalBurst: false,
+  cwd: '~',
 }
 
 let lineIdCounter = 0
@@ -49,6 +52,7 @@ export type Action =
   | { type: 'CLEAR_OVERLAY' }
   | { type: 'SET_BOOT_COMPLETE'; complete: boolean }
   | { type: 'SET_SIGNAL_BURST'; active: boolean }
+  | { type: 'SET_CWD'; dir: string }
   | { type: 'APPEND_BOOT_LINES'; nodes: ReactNode[] }
 
 export function shellReducer(state: ShellState, action: Action): ShellState {
@@ -61,6 +65,7 @@ export function shellReducer(state: ShellState, action: Action): ShellState {
         id: nextLineId(),
         kind: 'prompt',
         text: action.text,
+        cwd: state.cwd,
       }
       const filtered = action.text.trim() === '' ? state.history : [...state.history, action.text]
       return {
@@ -131,6 +136,9 @@ export function shellReducer(state: ShellState, action: Action): ShellState {
 
     case 'SET_SIGNAL_BURST':
       return { ...state, signalBurst: action.active }
+
+    case 'SET_CWD':
+      return { ...state, cwd: action.dir }
 
     case 'APPEND_BOOT_LINES': {
       const newLines: ShellLine[] = action.nodes.map((node) => ({

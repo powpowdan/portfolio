@@ -1,11 +1,11 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { useReducedMotion } from 'framer-motion'
 
 interface PromptProps {
   value: string
   bootComplete: boolean
+  cwd: string
   onChange: (value: string) => void
   onSubmit: () => void
   onArrowUp: () => void
@@ -17,6 +17,7 @@ interface PromptProps {
 export default function Prompt({
   value,
   bootComplete,
+  cwd,
   onChange,
   onSubmit,
   onArrowUp,
@@ -25,7 +26,6 @@ export default function Prompt({
   registerFocus,
 }: PromptProps) {
   const inputRef = useRef<HTMLInputElement>(null)
-  const reduceMotion = useReducedMotion()
 
   useEffect(() => {
     registerFocus(() => inputRef.current?.focus())
@@ -41,7 +41,7 @@ export default function Prompt({
         className="text-accent font-mono text-sm sm:text-base mt-2.5 mr-3 select-none"
         aria-hidden="true"
       >
-        ${' '}
+        {cwd}{' $'}{' '}
       </span>
       <div className="flex-1 relative">
         <input
@@ -72,7 +72,7 @@ export default function Prompt({
           spellCheck={false}
           className="w-full bg-transparent border-0 outline-none font-mono text-base sm:text-lg text-white/90 caret-accent"
         />
-        {value === '' && bootComplete && !reduceMotion && (
+        {value === '' && bootComplete && (
           <span
             aria-hidden="true"
             className="pointer-events-none absolute left-0 top-0 inline-block w-[8px] h-[1.2em] mt-2.5 bg-accent animate-blink"

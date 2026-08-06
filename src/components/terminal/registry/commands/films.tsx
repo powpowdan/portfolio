@@ -24,13 +24,13 @@ function filmCommand(name: keyof typeof FILM_PAYLOADS, description: string, keyw
     man: { description: `Homage to ${name}.` },
     run: (ctx) => {
       const payload = FILM_PAYLOADS[name]
-      if (!ctx.reduceMotion && payload.motion === 'rain') {
+      if (payload.motion === 'rain') {
         ctx.triggerOverlay({ kind: 'matrix' })
-      } else if (!ctx.reduceMotion && payload.motion === 'desaturate') {
+      } else if (payload.motion === 'desaturate') {
         ctx.triggerOverlay({ kind: 'wick' })
-      } else if (!ctx.reduceMotion && payload.motion === 'wash') {
+      } else if (payload.motion === 'wash') {
         ctx.triggerOverlay({ kind: 'drive' })
-      } else if (payload.motion === 'countdown' && !ctx.reduceMotion) {
+      } else if (payload.motion === 'countdown') {
         return countdownStream(payload.flavor)
       }
       return asyncLines(payload.flavor, { className: 'text-white/80' })

@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import { useReducedMotion } from 'framer-motion'
 import Typing from './Typing'
 import { buildBootStream, rollBoot } from '../../lib/terminal/boot'
 import { readFlag, writeFlag } from '../../lib/terminal/storage'
@@ -13,7 +12,6 @@ interface BootSequenceProps {
 }
 
 export default function BootSequence({ onComplete }: BootSequenceProps) {
-  const reduceMotion = useReducedMotion() ?? false
   const returning = useMemo(() => readFlag('bootSeen'), [])
   const rolls = useMemo(() => rollBoot(), [])
   const [chunks, setChunks] = useState<TypingChunk[] | null>(null)
@@ -40,27 +38,10 @@ export default function BootSequence({ onComplete }: BootSequenceProps) {
       writeFlag('bootSeen', true)
       onComplete()
     }
-  }, [done, onComplete])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [done])
 
   if (!chunks) return null
-
-  if (reduceMotion) {
-    return (
-      <div className="space-y-1.5 font-mono text-sm sm:text-base">
-        {chunks.map((c, i) =>
-          c.newline ? (
-            <div key={i} className={c.className}>
-              {c.text}
-            </div>
-          ) : (
-            <span key={i} className={c.className}>
-              {c.text}
-            </span>
-          ),
-        )}
-      </div>
-    )
-  }
 
   return (
     <div className="space-y-1.5">

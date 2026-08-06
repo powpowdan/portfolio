@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { useInView, useReducedMotion } from 'framer-motion'
+import { useInView } from 'framer-motion'
 
 interface ScrambleHeadingProps {
   command: string
@@ -12,17 +12,11 @@ const GLYPHS = '!<>-_\\/[]{}—=+*^?#________01'
 export default function ScrambleHeading({ command }: ScrambleHeadingProps) {
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, margin: '-80px' })
-  const reduceMotion = useReducedMotion() ?? false
   const fullText = `$ ${command}`
   const [displayed, setDisplayed] = useState('')
   const [done, setDone] = useState(false)
 
   useEffect(() => {
-    if (reduceMotion) {
-      setDisplayed(fullText)
-      setDone(true)
-      return
-    }
     if (!isInView || done) return
 
     let frame = 0
@@ -53,12 +47,12 @@ export default function ScrambleHeading({ command }: ScrambleHeadingProps) {
     raf = requestAnimationFrame(step)
     return () => cancelAnimationFrame(raf)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isInView, reduceMotion])
+  }, [isInView])
 
   return (
     <div ref={ref} className="section-heading chromatic-hover" data-testid="scramble-heading">
       <span className="text-accent">{displayed}</span>
-      {!done && isInView && !reduceMotion && (
+      {!done && isInView && (
         <span className="inline-block w-[2px] h-[1em] bg-accent ml-0.5 align-middle animate-blink" />
       )}
     </div>

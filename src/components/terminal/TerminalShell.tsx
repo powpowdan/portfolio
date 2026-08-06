@@ -67,12 +67,11 @@ export default function TerminalShell({ onCommandSubmitted }: TerminalShellProps
   }, [])
 
   useEffect(() => {
-    if (reduceMotion) return
     if (!state.bootComplete || state.signalBurst) return
     if (Math.random() >= 1 / 50) return
     const t = setTimeout(() => dispatch({ type: 'SET_SIGNAL_BURST', active: true }), 1200)
     return () => clearTimeout(t)
-  }, [state.bootComplete, state.signalBurst, reduceMotion])
+  }, [state.bootComplete, state.signalBurst])
 
   useEffect(() => {
     originalTitleRef.current = document.title
@@ -154,6 +153,8 @@ export default function TerminalShell({ onCommandSubmitted }: TerminalShellProps
         history: state.history,
         reduceMotion,
         allCommands: ALL_COMMANDS,
+        cwd: state.cwd,
+        setCwd: (dir: string) => dispatch({ type: 'SET_CWD', dir }),
         triggerOverlay: (overlay: ActiveOverlay) =>
           dispatch({ type: 'SET_OVERLAY', kind: overlay.kind, props: overlay.props }),
         clearOverlay: () => dispatch({ type: 'CLEAR_OVERLAY' }),
@@ -188,7 +189,7 @@ export default function TerminalShell({ onCommandSubmitted }: TerminalShellProps
       }
       armIdle()
     },
-    [state.input, state.history, reduceMotion, armIdle, onCommandSubmitted, focusPrompt],
+    [state.input, state.history, state.cwd, reduceMotion, armIdle, onCommandSubmitted, focusPrompt],
   )
 
   const handleTab = useCallback(() => {
@@ -227,6 +228,7 @@ export default function TerminalShell({ onCommandSubmitted }: TerminalShellProps
       <Prompt
         value={state.input}
         bootComplete={state.bootComplete}
+        cwd={state.cwd}
         onChange={(v) => dispatch({ type: 'SET_INPUT', value: v })}
         onSubmit={() => handleSubmit()}
         onArrowUp={() => dispatch({ type: 'RECALL_HISTORY', direction: 'up' })}

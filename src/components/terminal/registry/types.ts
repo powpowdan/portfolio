@@ -30,6 +30,8 @@ export interface CommandContext {
   history: string[]
   reduceMotion: boolean
   allCommands: readonly Command[]
+  cwd: string
+  setCwd: (dir: string) => void
   triggerOverlay: (overlay: ActiveOverlay) => void
   clearOverlay: () => void
   triggerGlitch: () => void

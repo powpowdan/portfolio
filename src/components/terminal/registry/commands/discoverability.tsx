@@ -21,7 +21,7 @@ const CONCEPT_CATEGORIES = [
   '  calm      breathe, meditate, still',
   '  fight     train, martial, combat',
   '  past      kitchen, chef, old life',
-  '  secret    1111, hidden, wishes',
+  '  secret    secrets, 1111, hidden rituals',
   '  fun       matrix, games, easter eggs',
   '  hack      sudo, glitch, break things',
   '  info      system, specs, whoami',
@@ -142,6 +142,24 @@ function manCommand(): Command {
   }
 }
 
+function secretsCommand(): Command {
+  return {
+    name: 'secrets',
+    description: '—',
+    hidden: true,
+    keywords: ['secret', 'secrets', 'hidden', 'easter', 'egg', 'ritual', 'mystery', 'undiscovered'],
+    man: {
+      description: 'A nudge toward the hidden.',
+      lore: 'Some files are not in `help`. The filesystem holds more than the sections.',
+    },
+    run: () =>
+      [
+        'some files are not in `help`.',
+        '`ls` shows the map. `cd` somewhere quiet. `cat` what you find.',
+      ].join('\n'),
+  }
+}
+
 export function cdSuccessVariant(section: string): string {
   return pick(CD_SUCCESS)(section)
 }
@@ -151,4 +169,5 @@ export const discoverabilityCommands: Command[] = [
   aliasCommand(),
   aproposCommand(),
   manCommand(),
+  secretsCommand(),
 ]

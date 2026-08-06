@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useReducedMotion } from 'framer-motion'
 
 interface NameRevealProps {
   skip?: boolean
@@ -16,16 +15,15 @@ type Phase = 'typing-hello' | 'pausing-hello' | 'deleting' | 'typing-name' | 'do
 
 const HELLO_WORLD = 'Hello World'
 const NAME_PART = "Hello, I'm Dan"
-const KEEP_PREFIX = 'Hello '
+const KEEP_PREFIX = 'Hello'
 
 export default function NameReveal({ skip, onDone }: NameRevealProps) {
-  const reduceMotion = useReducedMotion() ?? false
   const [displayed, setDisplayed] = useState('')
   const [phase, setPhase] = useState<Phase>('typing-hello')
   const [done, setDone] = useState(false)
 
   useEffect(() => {
-    if (skip || reduceMotion) {
+    if (skip) {
       setDisplayed(NAME_PART)
       setPhase('done')
       setDone(true)
@@ -60,7 +58,7 @@ export default function NameReveal({ skip, onDone }: NameRevealProps) {
     }
     return () => clearTimeout(timer)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [phase, displayed, skip, reduceMotion])
+  }, [phase, displayed, skip])
 
   return (
     <div className="font-mono text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-light tracking-tight text-white/90 leading-tight">
