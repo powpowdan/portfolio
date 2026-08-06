@@ -70,7 +70,7 @@ export default function Prompt({
           autoCorrect="off"
           autoCapitalize="off"
           spellCheck={false}
-          className="w-full bg-transparent border-0 outline-none font-mono text-base sm:text-lg text-white/90 caret-accent"
+          className={`w-full bg-transparent border-0 outline-none font-mono text-base sm:text-lg text-white/90 ${value === '' ? 'caret-transparent' : 'caret-accent'}`}
         />
         {value === '' && bootComplete && (
           <span

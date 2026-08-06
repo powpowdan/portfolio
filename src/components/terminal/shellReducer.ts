@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import type { ActiveOverlay, OverlayKind, OverlayProps } from './registry/types'
+import { MAX_WHISPERS, otherWhisper } from '../../lib/terminal/content/whispers'
 
 export interface ShellLine {
   id: string
@@ -88,6 +89,19 @@ export function shellReducer(state: ShellState, action: Action): ShellState {
     }
 
     case 'PUSH_WHISPER': {
+      const whisperIndices: number[] = []
+      state.lines.forEach((l, i) => {
+        if (l.kind === 'whisper') whisperIndices.push(i)
+      })
+      if (whisperIndices.length >= MAX_WHISPERS) {
+        const lastIdx = whisperIndices[whisperIndices.length - 1]
+        const last = state.lines[lastIdx]
+        const nextText = action.text && action.text !== last.text ? action.text : otherWhisper(last.text)
+        const replaced: ShellLine = { id: nextLineId(), kind: 'whisper', text: nextText }
+        const lines = state.lines.slice()
+        lines[lastIdx] = replaced
+        return { ...state, lines }
+      }
       const line: ShellLine = { id: nextLineId(), kind: 'whisper', text: action.text }
       return { ...state, lines: [...state.lines, line] }
     }

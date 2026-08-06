@@ -20,8 +20,9 @@ export default function ScrambleHeading({ command }: ScrambleHeadingProps) {
     if (!isInView || done) return
 
     let frame = 0
-    const totalFrames = fullText.length * 2
-    let raf = 0
+    const totalFrames = fullText.length * 4
+    const FRAME_INTERVAL_MS = 30
+    let timer: ReturnType<typeof setTimeout>
 
     const step = () => {
       frame += 1
@@ -42,10 +43,10 @@ export default function ScrambleHeading({ command }: ScrambleHeadingProps) {
         setDone(true)
         return
       }
-      raf = requestAnimationFrame(step)
+      timer = setTimeout(step, FRAME_INTERVAL_MS)
     }
-    raf = requestAnimationFrame(step)
-    return () => cancelAnimationFrame(raf)
+    timer = setTimeout(step, FRAME_INTERVAL_MS)
+    return () => clearTimeout(timer)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isInView])
 

@@ -84,6 +84,11 @@ function aliasCommand(): Command {
   }
 }
 
+function displayDescription(c: Command): string {
+  if (c.description && c.description !== '—') return c.description
+  return c.man?.description ?? '—'
+}
+
 function aproposCommand(): Command {
   return {
     name: 'apropos',
@@ -101,20 +106,21 @@ function aproposCommand(): Command {
         return CONCEPT_CATEGORIES.join('\n')
       }
       const expanded = Array.from(new Set(expandKeyword(term)))
-      const matches = new Set<string>()
+      const matches: Command[] = []
       for (const c of ctx.allCommands) {
         const haystack = [c.name, ...(c.aliases ?? []), ...(c.keywords ?? [])].map((s) => s.toLowerCase())
         for (const e of expanded) {
           if (haystack.some((h) => h.includes(e) || e.includes(h))) {
-            matches.add(c.name)
+            matches.push(c)
             break
           }
         }
       }
-      if (matches.size === 0) {
+      if (matches.length === 0) {
         return `nothing found for "${term}". try: apropos (with no args) to see concepts.`
       }
-      return `did you mean: ${Array.from(matches).map((m) => `\`${m}\``).join(', ')} ?`
+      const lines = matches.map((c) => `  ${c.name.padEnd(12, ' ')} ${displayDescription(c)}`)
+      return `${term} —\n${lines.join('\n')}`
     },
   }
 }

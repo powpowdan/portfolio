@@ -86,6 +86,28 @@ function emacsCommand(): Command {
   }
 }
 
+function nanoCommand(): Command {
+  return {
+    name: 'nano',
+    description: '—',
+    hidden: true,
+    keywords: ['nano', 'editor', 'edit', 'pico', 'simple'],
+    man: { description: 'The editor that just lets you leave.' },
+    run: () => {
+      const lines = [
+        `opening nano...`,
+        ``,
+        `  ^O write out   ^X exit`,
+        `  (it just works. no war today.)`,
+        ``,
+        `> exiting nano. that was painless.`,
+        `> (editor war: vim and emacs didn't even notice.)`,
+      ]
+      return lines.join('\n')
+    },
+  }
+}
+
 function hackCommand(): Command {
   return {
     name: 'hack',
@@ -105,4 +127,4 @@ function hackCommand(): Command {
   }
 }
 
-export const gagCommands: Command[] = [sudoCommand(), rmCommand(), vimCommand(), emacsCommand(), hackCommand()]
+export const gagCommands: Command[] = [sudoCommand(), rmCommand(), vimCommand(), emacsCommand(), nanoCommand(), hackCommand()]

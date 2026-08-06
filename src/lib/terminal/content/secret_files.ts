@@ -96,6 +96,11 @@ export const VIRTUAL_DIRS: Record<VirtualDirName, Record<string, CatalogueEntry>
       command: 'emacs',
       verb: 'sink',
     },
+    'nano.friendly': {
+      riddle: 'the one editor that lets you leave.',
+      command: 'nano',
+      verb: 'open',
+    },
     'hack.planet': {
       riddle: 'hack the planet. ICE-breaker engaged.',
       command: 'hack',
