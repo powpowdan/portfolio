@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { useActiveSection } from './SectionContext'
 
 const sections = [
+  { id: 'home', label: 'terminal' },
   { id: 'about', label: 'about' },
   { id: 'projects', label: 'projects' },
   { id: 'skills', label: 'skills' },

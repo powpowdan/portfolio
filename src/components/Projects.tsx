@@ -5,7 +5,8 @@ import ScrambleHeading from './terminal/effects/ScrambleHeading'
 
 const projects = [
   {
-    title: 'Meditation App',
+    title: 'The Meditation App',
+    name: 'Simply Meditation',
     description:
       'A full-stack meditation and mindfulness application with guided sessions, progress tracking, and ambient soundscapes.',
     tags: ['React', 'Next.js', 'Tailwind CSS', 'MongoDB'],
@@ -15,10 +16,33 @@ const projects = [
     },
   },
   {
-    title: 'Public Camera World Map',
+    title: 'The Global Camera Network',
+    name: 'Cam-Spy',
     description:
       'An interactive world map visualizing publicly accessible webcams, with search, filtering, and location-based discovery.',
     tags: ['TypeScript', 'Next.js', 'Mapbox', 'REST API'],
+    links: {
+      github: '#',
+      live: '#',
+    },
+  },
+  {
+    title: 'The Class Builder',
+    name: 'Cadence',
+    description:
+      'A class-building tool for coaches (muay thai and combat sports) to structure drills, sparring rounds, and training blocks.',
+    tags: ['React 19', 'Vite 7', 'Supabase'],
+    links: {
+      github: '#',
+      live: '#',
+    },
+  },
+  {
+    title: 'The Generic [Workout] Tracker',
+    name: 'Atlas',
+    description:
+      'A flexible, template-driven workout tracker for logging exercises, sets, and progress across custom routines.',
+    tags: ['React Native', 'Expo', 'SQLite'],
     links: {
       github: '#',
       live: '#',
@@ -57,6 +81,10 @@ export default function Projects() {
                   {project.title}
                 </h3>
               </div>
+
+              <p className="text-xs font-mono text-accent/80 -mt-3 mb-4">
+                ↳ {project.name}
+              </p>
 
               <p className="text-sm text-muted leading-relaxed mb-5">
                 {project.description}

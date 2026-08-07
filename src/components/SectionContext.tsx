@@ -2,29 +2,31 @@
 
 import { createContext, useContext, useEffect, useState } from 'react'
 
-const sectionIds = ['about', 'projects', 'skills']
+const sectionIds = ['home', 'about', 'projects', 'skills']
 
 interface SectionContextType {
   activeSection: string
 }
 
-const SectionContext = createContext<SectionContextType>({ activeSection: 'about' })
+const SectionContext = createContext<SectionContextType>({ activeSection: 'home' })
 
 export function SectionProvider({ children }: { children: React.ReactNode }) {
-  const [activeSection, setActiveSection] = useState('about')
+  const [activeSection, setActiveSection] = useState('home')
 
   useEffect(() => {
+    const visible: Record<string, boolean> = {}
     const observers: IntersectionObserver[] = []
 
     sectionIds.forEach((id) => {
       const el = document.getElementById(id)
       if (!el) return
+      visible[id] = false
 
       const observer = new IntersectionObserver(
         ([entry]) => {
-          if (entry.isIntersecting) {
-            setActiveSection(id)
-          }
+          visible[id] = entry.isIntersecting
+          const topmost = sectionIds.find((sid) => visible[sid])
+          if (topmost) setActiveSection(topmost)
         },
         { threshold: 0.3, rootMargin: '-80px 0px -50% 0px' }
       )

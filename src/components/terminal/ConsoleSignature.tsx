@@ -3,19 +3,14 @@
 import { useEffect } from 'react'
 
 const SIGNATURE = String.raw`
-   ___                  ___           ___           ___
-  /\  \                /\__\         /\  \         /\__\
-  \:\  \              /::|  |       /::\  \       /:/  /
-   \:\  \            /:|:|  |      /:/\:\  \     /:/  /
-    \:\  \          /:/|:|__|__   /::\~\:\  \   /:/  /
-     \:\__\        /:/ |::::\__\ /:/\:\ \:\__\ /:/__/
-      \/__/        \/__/~~/~::::\/__\:\/:/  / \:\  \
-                          |:|~~|       \::/  /   \:\  \
-                          |:|  |       /:/  /     \:\__\
-                          |:|  |      /:/  /       \/__/
-                           \|__|      \/__/
+██████  ██████
+██▓▓▓██ ██▓▓▓██
+██▓  ██▓██████▓▓
+██▓  ██▓██▓▓▓██
+██████▓▓██████▓▓
+ ▓▓▓▓▓▓  ▓▓▓▓▓▓
 
-   be here now.  type 'help' to begin.
+Heyo!  type 'help' to begin.
 `
 
 const MESSAGE = `%c${SIGNATURE}
@@ -30,7 +25,7 @@ export default function ConsoleSignature() {
     // eslint-disable-next-line no-console
     console.log(
       MESSAGE,
-      'color: #00d4ff; font-family: monospace; font-size: 10px; line-height: 1.1;',
+      'color: #00d4ff; font-family: monospace; font-size: 14px; line-height: 1.0; font-weight: bold;',
       'color: #888; font-family: monospace;',
     )
   }, [])

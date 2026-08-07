@@ -4,11 +4,11 @@ import { ROY_BATTY_MONOLOGUE } from './content/whispers'
 import { pick } from './random'
 
 const STATUS_LINES = [
-  'construct loaded · be here now',
+  'construct loaded · here now',
   'deck online · breathe',
   'system ready · stay loose',
   'jacked in · attached to nothing',
-  'construct loaded · the street finds its own uses',
+  'construct loaded · lets go',
 ] as const
 
 export interface BootRolls {
@@ -73,13 +73,13 @@ export function buildBootStream(rolls: BootRolls): AsyncIterable<TypingChunk> {
 
     yield {
       text: 'initializing portfolio.sh ........... ok',
-      className: 'text-white/60',
+      className: 'text-white/70',
       delayMs: 600,
       newline: true,
     }
     yield {
       text: pick(STATUS_LINES),
-      className: 'text-white/60',
+      className: 'text-white/70',
       delayMs: 300,
       newline: true,
     }

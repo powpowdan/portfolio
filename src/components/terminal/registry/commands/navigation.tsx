@@ -32,8 +32,10 @@ const CAT_CONTENT: Record<Section, string> = {
     'stack      linux · ai · cloud',
   ].join('\n'),
   projects: [
-    'meditation app       react · next.js · mongodb',
-    'public camera map    typescript · mapbox · rest api',
+    'the meditation app → simply meditation          react · next.js · mongodb',
+    'the global camera network → cam-spy             typescript · mapbox · rest api',
+    'the class builder → cadence                     react 19 · vite 7 · supabase',
+    'the generic [workout] tracker → atlas           react native · expo · sqlite',
     '',
     '(use `cd projects` to view full cards)',
   ].join('\n'),
