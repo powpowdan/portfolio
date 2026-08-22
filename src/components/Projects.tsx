@@ -3,49 +3,64 @@
 import { motion } from 'framer-motion'
 import ScrambleHeading from './terminal/effects/ScrambleHeading'
 
-const projects = [
+type Project = {
+  title: string
+  name: string
+  description: string
+  tags: string[]
+  links: {
+    github: string
+    live?: string
+  }
+}
+
+const projects: Project[] = [
   {
     title: 'The Meditation App',
     name: 'Simply Meditation',
     description:
-      'A full-stack meditation and mindfulness application with guided sessions, progress tracking, and ambient soundscapes.',
-    tags: ['React', 'Next.js', 'Tailwind CSS', 'MongoDB'],
+      'A minimalist, offline mobile meditation application built with React Native. Features customizable ambient soundscapes, audio controls, curated tracks, profile management and a clean interface.',
+    tags: ['React Native',
+    'TypeScript',
+    'Track Player',
+    'AsyncStorage',
+    'Android (Gradle)',],
     links: {
-      github: '#',
-      live: '#',
+      github: 'https://github.com/powpowdan/simplymeditation',
+      live: ''
     },
   },
   {
     title: 'The Global Camera Network',
     name: 'Cam-Spy',
     description:
-      'An interactive world map visualizing publicly accessible webcams, with search, filtering, and location-based discovery.',
-    tags: ['TypeScript', 'Next.js', 'Mapbox', 'REST API'],
+      'An interactive world map aggregating 30,000+ publicly accessible webcams from dozens of open data agencies, with search, filtering, and location-based discovery.',
+    tags: ['JSX', 'React 19 + Vite', 'Leaflet +openStreet', 'React compiler'],
     links: {
-      github: '#',
-      live: '#',
+      github: 'https://github.com/powpowdan/can-spy',
+      live: 'https://global-cam.vercel.app/',
     },
   },
   {
     title: 'The Class Builder',
     name: 'Cadence',
     description:
-      'A class-building tool for coaches (muay thai and combat sports) to structure drills, sparring rounds, and training blocks.',
+      'A cross-platform tool for coaches to organize drills, sparring rounds, and training blocks. Build and manage sessions on desktop or mobile, share saved classes, and automatically generate your session runner directly from your structure.',
     tags: ['React 19', 'Vite 7', 'Supabase'],
     links: {
-      github: '#',
-      live: '#',
+      github: 'https://github.com/powpowdan/zenntrainer',
+      live: 'https://zenntrainer.vercel.app/',
     },
   },
   {
-    title: 'The Generic [Workout] Tracker',
+    title: 'The Workout Tracker',
     name: 'Atlas',
     description:
-      'A flexible, template-driven workout tracker for logging exercises, sets, and progress across custom routines.',
-    tags: ['React Native', 'Expo', 'SQLite'],
+      'A flexible, local-first workout tracker for logging exercises, sets, and progress across custom routines. Built for progressive overload - it surfaces your last and best performance so every set is you vs you.',
+    tags: ['React Native', 'Expo', 'SQLite', 'TypeScript', 'Zustland' ],
     links: {
-      github: '#',
-      live: '#',
+      github: 'https://github.com/powpowdan/atlas',
+      live: '',
     },
   },
 ]
@@ -73,7 +88,7 @@ export default function Projects() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.15, duration: 0.5 }}
-              className="card group"
+              className="card group flex flex-col"
             >
               <div className="flex items-center gap-2 mb-4">
                 <span className="w-2 h-2 rounded-full bg-accent/60" />
@@ -102,19 +117,21 @@ export default function Projects() {
                 ))}
               </div>
 
-              <div className="flex gap-4">
+              <div className="flex gap-4 mt-auto">
                 <a
                   href={project.links.github}
                   className="tap-target text-xs font-mono text-muted hover:text-accent transition-colors duration-200"
                 >
                   github →
                 </a>
-                <a
-                  href={project.links.live}
-                  className="tap-target text-xs font-mono text-muted hover:text-accent transition-colors duration-200"
-                >
-                  live demo →
-                </a>
+                {project.links.live ? (
+                  <a
+                    href={project.links.live}
+                    className="tap-target text-xs font-mono text-muted hover:text-accent transition-colors duration-200"
+                  >
+                    live demo →
+                  </a>
+                ) : null}
               </div>
             </motion.div>
           ))}
