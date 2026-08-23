@@ -38,9 +38,9 @@ export default function Prompt({
   }, [bootComplete])
 
   return (
-    <div className="flex items-start">
+    <div className="flex items-center">
       <span
-        className={`${root ? 'text-accentRoot' : 'text-accent'} font-mono text-sm sm:text-base mt-2.5 mr-3 select-none`}
+        className={`${root ? 'text-accentRoot' : 'text-accent'} font-mono text-sm sm:text-base mr-3 select-none`}
         aria-hidden="true"
       >
         {cwd}{root ? ' #' : ' $'}{' '}
@@ -72,12 +72,12 @@ export default function Prompt({
           autoCorrect="off"
           autoCapitalize="off"
           spellCheck={false}
-          className={`w-full bg-transparent border-0 outline-none font-mono text-base sm:text-lg text-white/90 ${value === '' ? 'caret-transparent' : root ? 'caret-accentRoot' : 'caret-accent'}`}
+          className={`w-full h-7 p-0 bg-transparent border-0 outline-none font-mono text-sm sm:text-base text-white/90 ${value === '' ? 'caret-transparent' : root ? 'caret-accentRoot' : 'caret-accent'}`}
         />
         {value === '' && bootComplete && (
           <span
             aria-hidden="true"
-            className={`pointer-events-none absolute left-0 top-0 inline-block w-[8px] h-[1.2em] mt-2.5 animate-blink ${root ? 'bg-accentRoot' : 'bg-accent'}`}
+            className={`pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 inline-block w-[8px] h-[1.2em] animate-blink ${root ? 'bg-accentRoot' : 'bg-accent'}`}
           />
         )}
       </div>

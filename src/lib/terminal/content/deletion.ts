@@ -8,6 +8,6 @@ export const UNINSTALL_LOG: string[] = [
   'removing you (guest) ... done',
 ]
 
-export const DELETION_FINAL_LINE = 'what we do in life echoes in eternity.'
+export const DELETION_FINAL_LINE = 'form is temporary. state is eternal.'
 
 export const DELETION_CANCEL_LINE = 'wise. restraint is root too.'

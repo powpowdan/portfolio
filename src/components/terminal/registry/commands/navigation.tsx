@@ -76,12 +76,6 @@ function currentVirtualDir(cwd: string): VirtualDirName | null {
   return isVirtualDir(name) ? name : null
 }
 
-const ROOT_HINTS = [
-  '(some directories are quieter than others. cd around.)',
-  '(four dirs sit off the beaten path. cd somewhere quiet.)',
-  '(more here than the sections. cd into a directory.)',
-] as const
-
 const DIR_HINTS = [
   '(cat a file to learn what it hides.)',
   '(read with cat. each file names a command.)',
@@ -133,10 +127,9 @@ async function* lsOutput(ctx: CommandContext): AsyncIterable<TypingChunk> {
   yield {
     text: formatColumns(VIRTUAL_DIR_NAMES.map((d) => `${d}/`)),
     delayMs: 60,
+    newline: true,
     className: 'text-muted/60',
   }
-  yield { text: '', newline: true, delayMs: 120 }
-  yield { text: pick(ROOT_HINTS), delayMs: 200, className: 'text-muted/60' }
 }
 
 function lsCommand(): Command {

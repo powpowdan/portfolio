@@ -12,11 +12,11 @@ const focusAreas = [
   'AI Tooling',
 ]
 
-const meta = [
+const meta: { k: string; v: string; full?: boolean }[] = [
   { k: 'role', v: 'Full-Stack Developer' },
   { k: 'location', v: 'Ottawa, ON' },
   // { k: 'clearance', v: 'Secret' },
-  { k: 'stack', v: 'TypeScript · React · Python · Linux' },
+  { k: 'stack', v: 'TypeScript · React · Python · Linux', full: true },
 ]
 
 export default function About() {
@@ -74,8 +74,8 @@ export default function About() {
           </div>
 
           <div className="grid grid-cols-2 gap-x-8 gap-y-3 pt-6 border-t border-white/[0.04] font-mono text-sm">
-            {meta.map(({ k, v }) => (
-              <div key={k} className="flex justify-between gap-4">
+            {meta.map(({ k, v, full }) => (
+              <div key={k} className={`flex justify-between gap-4 ${full ? 'col-span-2' : ''}`}>
                 <span className="text-accent">{k}</span>
                 <span className="text-muted text-right">{v}</span>
               </div>

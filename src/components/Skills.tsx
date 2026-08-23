@@ -10,7 +10,7 @@ const skillGroups = [
   },
   {
     label: 'Frontend',
-    skills: ['React 19', 'Next.js', 'Tailwind CSS', 'Bootstrap', 'Vite'],
+    skills: ['React', 'Next.js', 'Tailwind CSS', 'Bootstrap', 'Vite'],
   },
   {
     label: 'Mobile',
