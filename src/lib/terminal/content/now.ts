@@ -2,8 +2,8 @@ export const NOW_POOL: { k: string; vs: string[] }[] = [
   {
     k: 'learning',
     vs: [
-      'legacy linux servers · AWS',
-      'AWS · legacy infrastructure',
+      'linux servers · AWS',
+      'AWS · infrastructure',
       'old linux + new cloud',
       'the stack beneath the stack',
     ],
@@ -11,10 +11,10 @@ export const NOW_POOL: { k: string; vs: string[] }[] = [
   {
     k: 'building',
     vs: [
-      'python automation tools for accessibility',
-      'a11y automation in python',
-      'tools that make the web usable',
-      'python · a11y · automation',
+      'a homelab — proxmox · docker · jellyfin',
+      'self-hosted everything',
+      'servers of my own',
+      'pi-hole · backups · streaming',
     ],
   },
   {

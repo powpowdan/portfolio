@@ -6,27 +6,27 @@ import ScrambleHeading from './terminal/effects/ScrambleHeading'
 const skillGroups = [
   {
     label: 'Languages',
-    skills: ['Python', 'Java', 'JavaScript', 'TypeScript', 'Bash', 'SQL'],
+    skills: ['TypeScript', 'JavaScript', 'Python', 'SQL', 'Bash'],
   },
   {
     label: 'Frontend',
-    skills: ['React', 'Next.js', 'HTML5', 'CSS3/SASS', 'Tailwind CSS', 'Bootstrap'],
+    skills: ['React 19', 'Next.js', 'Tailwind CSS', 'Bootstrap', 'Vite'],
   },
   {
-    label: 'Backend & Tools',
-    skills: ['Git', 'REST APIs', 'Node.js', 'Power Automate', 'Azure', 'Vercel'],
+    label: 'Mobile',
+    skills: ['React Native', 'Expo', 'EAS'],
   },
   {
-    label: 'Databases',
-    skills: ['PostgreSQL', 'MongoDB', 'MySQL', 'SQL Server', 'Oracle'],
+    label: 'Backend & Data',
+    skills: ['FastAPI', 'Supabase', 'PostgreSQL', 'SQLite', 'MongoDB', 'REST'],
   },
   {
-    label: 'CMS & Platforms',
-    skills: ['AEM', 'SharePoint', 'Drupal', 'WordPress', 'WET 4'],
+    label: 'Linux & Ops',
+    skills: ['Linux', 'Proxmox', 'Docker', 'AWS', 'Git', 'Vercel', 'Power Automate'],
   },
   {
-    label: 'Standards & Analytics',
-    skills: ['WCAG 2.2', 'GA4', 'Adobe Analytics', 'Siteimprove', 'Power BI'],
+    label: 'Craft',
+    skills: ['AI-assisted dev', 'WCAG 2.2', 'Vitest/Jest', 'Open Data'],
   },
 ]
 

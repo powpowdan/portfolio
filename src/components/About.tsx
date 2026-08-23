@@ -5,18 +5,18 @@ import ScrambleHeading from './terminal/effects/ScrambleHeading'
 
 const focusAreas = [
   'Full-Stack',
-  'DevOps',
+  'Mobile',
+  'Local-First',
+  'Linux & Self-Hosting',
   'Automation',
-  'Infrastructure',
-  'AI / LLMs',
-  'Accessibility (WCAG)',
+  'AI Tooling',
 ]
 
 const meta = [
   { k: 'role', v: 'Full-Stack Developer' },
   { k: 'location', v: 'Ottawa, ON' },
   { k: 'clearance', v: 'Secret' },
-  { k: 'stack', v: 'Linux · AI · Cloud' },
+  { k: 'stack', v: 'TS · React · Python · Linux' },
 ]
 
 export default function About() {
@@ -41,14 +41,16 @@ export default function About() {
               <span className="mx-2 text-white/20">—</span>
               Building large-scale web applications, automated workflows, system
               administration, server infrastructure, and reliable deployments
-              for high-profile projects.
+              for high-profile projects. Day to day, I run the public site and
+              intranet end-to-end.
             </p>
             <p>
               <span className="text-accent font-mono">night</span>
               <span className="mx-2 text-white/20">—</span>
               Driven by passion and curiosity, powered by Linux and AI. Apps,
               servers, automations, and custom software for myself and the
-              world.
+              world. A growing homelab — Proxmox, Docker, Pi-hole, Jellyfin,
+              photo backups — always experimenting.
             </p>
           </div>
 
