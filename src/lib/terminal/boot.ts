@@ -7,7 +7,7 @@ const STATUS_LINES = [
   'construct loaded · here now',
   'deck online · breathe',
   'system ready · stay loose',
-  'jacked in · attached to nothing',
+  'jacked in · get it',
   'construct loaded · lets go',
 ] as const
 

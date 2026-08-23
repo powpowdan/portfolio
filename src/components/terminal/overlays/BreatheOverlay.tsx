@@ -28,7 +28,19 @@ const FIGHT_CYCLE: Phase[] = [
 export default function BreatheOverlay({ mode, onDismiss }: BreatheOverlayProps) {
   const cycle = mode === 'fight' ? FIGHT_CYCLE : CALM_CYCLE
   const [phaseIdx, setPhaseIdx] = useState(0)
+  const [entered, setEntered] = useState(false)
   const dismissedRef = useRef(false)
+
+  useEffect(() => {
+    let raf2: number
+    const raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(() => setEntered(true))
+    })
+    return () => {
+      cancelAnimationFrame(raf1)
+      cancelAnimationFrame(raf2)
+    }
+  }, [])
 
   useEffect(() => {
     dismissedRef.current = false
@@ -67,8 +79,8 @@ export default function BreatheOverlay({ mode, onDismiss }: BreatheOverlayProps)
           style={{
             width: '40vmin',
             height: '40vmin',
-            transform: `scale(${phase.scale})`,
-            transitionDuration: `${phase.ms}ms`,
+            transform: `scale(${entered ? phase.scale : 1})`,
+            transitionDuration: entered ? `${phase.ms}ms` : '0ms',
             boxShadow: '0 0 80px rgba(0, 212, 255, 0.15)',
           }}
         />

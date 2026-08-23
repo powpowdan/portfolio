@@ -26,7 +26,7 @@ const skillGroups = [
   },
   {
     label: 'Craft',
-    skills: ['AI-augmented dev', 'WCAG 2.2', 'Vitest/Jest', 'Open Data'],
+    skills: ['AI-augmented dev', 'WCAG 2.2', 'Jest', 'Open Data'],
   },
 ]
 

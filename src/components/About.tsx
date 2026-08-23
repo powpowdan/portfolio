@@ -41,7 +41,7 @@ export default function About() {
               <span className="mx-2 text-white/20">—</span>
               Building large-scale web applications, automated workflows, system
               administration, server infrastructure, and reliable deployments
-              for high-profile projects. Day to day, I run the public site and
+              for high-profile projects. Day to day, I run the public facing site and
               intranet end-to-end.
             </p>
             <p>

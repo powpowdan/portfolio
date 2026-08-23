@@ -22,7 +22,7 @@ const SECTION_FILES: Record<Section, string> = {
 const CAT_CONTENT: Record<Section, string> = {
   about: [
     'day   — large-scale web apps, automation, infrastructure.',
-    '        running the public site and intranet end-to-end.',
+    '        running the public facing site and intranet end-to-end.',
     'night — linux, ai, automations, custom software for the world.',
     '        a growing homelab — proxmox, docker, pi-hole, jellyfin.',
     '',
@@ -47,7 +47,7 @@ const CAT_CONTENT: Record<Section, string> = {
     'mobile      react native · expo · eas',
     'backend     fastapi · supabase · postgres · sqlite · mongo · rest',
     'ops         linux · proxmox · docker · aws · git · vercel · power automate',
-    'craft       ai-assisted dev · wcag 2.2 · vitest/jest · open data',
+    'craft       ai-augmented dev · wcag 2.2 · jest · open data',
   ].join('\n'),
   contact: [
     'email     daniel.brown.gov@gmail.com',

@@ -8,7 +8,8 @@ export const KITCHEN_LORE: string[] = [
   '',
   'different craft. same discipline.',
   'the pan still fits the hand. the code is taking longer.',
-  "that's fine. so was the kitchen, once.",
+  "that's fine.",
+  "so was the kitchen, once."
 ]
 
 export const TRAIN_LORE: string[] = [
