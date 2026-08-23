@@ -4,6 +4,7 @@ import { infoCommands } from './commands/info'
 import { contactCommands } from './commands/contact'
 import { shellCommands } from './commands/shell'
 import { discoverabilityCommands } from './commands/discoverability'
+import { trophiesCommands } from './commands/trophies'
 import { loreCommands } from './commands/lore'
 import { filmCommands } from './commands/films'
 import { gagCommands } from './commands/gags'
@@ -14,6 +15,7 @@ export const ALL_COMMANDS: Command[] = [
   ...contactCommands,
   ...shellCommands,
   ...discoverabilityCommands,
+  ...trophiesCommands,
   ...loreCommands,
   ...filmCommands,
   ...gagCommands,

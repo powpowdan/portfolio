@@ -1,13 +1,18 @@
 import type { Command, TypingChunk } from '../types'
+import { isRoot } from '../../../../lib/terminal/discovery'
 
 function sudoCommand(): Command {
   return {
     name: 'sudo',
     description: '—',
     hidden: true,
+    category: 'gags',
     keywords: ['sudo', 'admin', 'root', 'permission', 'elevated', 'superuser'],
     man: { description: 'Execute a command as superuser. (You are not authorized.)' },
     run: (ctx) => {
+      if (isRoot()) {
+        return 'permission granted. it was always your machine.'
+      }
       const attempted = ctx.raw || '<nothing>'
       const lines = [
         `[sudo] password for guest: `,
@@ -28,6 +33,7 @@ function rmCommand(): Command {
     name: 'rm',
     description: '—',
     hidden: true,
+    category: 'gags',
     keywords: ['rm', 'delete', 'remove', 'destroy', 'recursive'],
     man: { description: 'Remove files or directories. (Gag.)' },
     run: (ctx) => {
@@ -35,6 +41,10 @@ function rmCommand(): Command {
       const destructive = /^-r?f?\/?$/.test(target) || target.startsWith('/') || target.includes('-rf')
       if (!destructive) {
         return `rm: ${target || 'missing operand'}: nothing happened. (phew.)`
+      }
+      if (isRoot()) {
+        ctx.requestConfirm('delete everything? [y/N]')
+        return null
       }
       const lines = [
         `you wouldn't download a portfolio...`,
@@ -51,6 +61,7 @@ function vimCommand(): Command {
     name: 'vim',
     description: '—',
     hidden: true,
+    category: 'gags',
     keywords: ['vim', 'editor', 'vi', 'edit'],
     man: { description: 'The editor. (Good luck escaping.)' },
     run: () => {
@@ -73,6 +84,7 @@ function emacsCommand(): Command {
     name: 'emacs',
     description: '—',
     hidden: true,
+    category: 'gags',
     keywords: ['emacs', 'editor', 'edit'],
     man: { description: 'A shell pretending to be an editor. Or vice versa.' },
     run: () => {
@@ -91,6 +103,7 @@ function nanoCommand(): Command {
     name: 'nano',
     description: '—',
     hidden: true,
+    category: 'gags',
     keywords: ['nano', 'editor', 'edit', 'pico', 'simple'],
     man: { description: 'The editor that just lets you leave.' },
     run: () => {
@@ -113,6 +126,7 @@ function hackCommand(): Command {
     name: 'hack',
     description: '—',
     hidden: true,
+    category: 'gags',
     keywords: ['hack', 'glitch', 'matrix', 'cool', 'break'],
     man: { description: 'Hack the planet. (Triggers a glitch burst.)' },
     run: (ctx) => {

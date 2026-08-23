@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
+import type { Category } from '../../../lib/terminal/discovery'
 
-export type OverlayKind = 'breathe' | 'matrix' | 'signalBurst' | 'wick' | 'drive'
+export type OverlayKind = 'breathe' | 'matrix' | 'signalBurst' | 'wick' | 'drive' | 'deletion'
 
 export interface BreatheOverlayProps {
   mode: 'calm' | 'fight'
@@ -35,6 +36,7 @@ export interface CommandContext {
   triggerOverlay: (overlay: ActiveOverlay) => void
   clearOverlay: () => void
   triggerGlitch: () => void
+  requestConfirm: (prompt: string) => void
   scrollToSection: (id: string) => void
   clearScreen: () => void
 }
@@ -52,6 +54,7 @@ export interface Command {
   aliases?: string[]
   keywords?: string[]
   hidden?: boolean
+  category?: Category
   man?: ManDoc
   run: (ctx: CommandContext) => CommandOutput | Promise<CommandOutput>
 }

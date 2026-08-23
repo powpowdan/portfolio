@@ -15,7 +15,7 @@ const focusAreas = [
 const meta = [
   { k: 'role', v: 'Full-Stack Developer' },
   { k: 'location', v: 'Ottawa, ON' },
-  { k: 'clearance', v: 'Secret' },
+  // { k: 'clearance', v: 'Secret' },
   { k: 'stack', v: 'TypeScript · React · Python · Linux' },
 ]
 

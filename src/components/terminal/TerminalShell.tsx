@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useReducer, useRef } from 'react'
+import { useCallback, useEffect, useReducer, useRef, useState, type ReactNode } from 'react'
 import { useReducedMotion } from 'framer-motion'
 import Prompt from './Prompt'
 import OutputLine from './OutputLine'
@@ -13,7 +13,22 @@ import { parseInput, type CommandOutput, type ActiveOverlay } from './registry/t
 import Typing from './Typing'
 import { isTypingStream, drainStream } from './utils'
 import { pick } from '../../lib/terminal/random'
-import { IDLE_WHISPERS, AWAY_TITLES } from '../../lib/terminal/content/whispers'
+import { AWAY_TITLES } from '../../lib/terminal/content/whispers'
+import {
+  getProgress,
+  isRoot,
+  recordAll,
+  recordDiscovery,
+  resetDiscovery,
+  subscribe,
+  HIDDEN_TOTAL,
+} from '../../lib/terminal/discovery'
+import {
+  discoveryToast,
+  nextWhisper,
+  transmissionCopy,
+} from '../../lib/terminal/content/discovery'
+import { DELETION_CANCEL_LINE } from '../../lib/terminal/content/deletion'
 
 const NOT_FOUND_VARIANTS = [
   (name: string) => `command not found: ${name} — try 'help' or 'apropos <keyword>'`,
@@ -22,6 +37,24 @@ const NOT_FOUND_VARIANTS = [
   (name: string) => `command not found: ${name}. type 'help' for the list`,
 ] as const
 
+const BACKDOOR = 'enterthecode'
+const BACKDOOR_EXIT = 'exitthecode'
+
+function transmissionNode(): ReactNode {
+  const copy = transmissionCopy(HIDDEN_TOTAL)
+  return (
+    <div className="font-mono text-sm sm:text-base leading-relaxed my-1">
+      <div className="text-accentRoot/90">{copy.header}</div>
+      <div className="text-white/70 mt-1">{copy.body[0]}</div>
+      <div className="text-white/70">{copy.body[1]}</div>
+      <div className="text-white/60 mt-1">{copy.signoff}</div>
+      <div className="text-accentRoot/80 mt-1">{copy.root}</div>
+      <div className="text-accentRoot/80 mt-2">{copy.maintenance}</div>
+      <div className="text-red-400/70 mt-1">{copy.rmHint}</div>
+    </div>
+  )
+}
+
 interface TerminalShellProps {
   onCommandSubmitted?: () => void
 }
@@ -29,18 +62,38 @@ interface TerminalShellProps {
 export default function TerminalShell({ onCommandSubmitted }: TerminalShellProps) {
   const [state, dispatch] = useReducer(shellReducer, initialState)
   const reduceMotion = useReducedMotion() ?? false
+  const [rootMode, setRootMode] = useState(false)
   const outputRef = useRef<HTMLDivElement>(null)
   const focusRef = useRef<() => void>(() => {})
   const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const originalTitleRef = useRef<string | null>(null)
   const awayTitleSetRef = useRef(false)
   const oneOneOneFiredRef = useRef(false)
+  const nudgeFiredRef = useRef(false)
+  const lastNarratorRef = useRef(false)
+  const lastWhisperRef = useRef<string | undefined>(undefined)
+  const trophiesRunRef = useRef(false)
+
+  useEffect(() => subscribe(() => setRootMode(isRoot())), [])
 
   const armIdle = useCallback(() => {
     if (idleTimerRef.current) clearTimeout(idleTimerRef.current)
     if (!state.bootComplete) return
     idleTimerRef.current = setTimeout(() => {
-      dispatch({ type: 'PUSH_WHISPER', text: IDLE_WHISPERS[Math.floor(Math.random() * IDLE_WHISPERS.length)] })
+      const pickResult = nextWhisper(
+        {
+          nudgeFired: nudgeFiredRef.current,
+          lastWasNarrator: lastNarratorRef.current,
+          trophiesRun: trophiesRunRef.current,
+          lastWhisper: lastWhisperRef.current,
+        },
+        getProgress(),
+      )
+      nudgeFiredRef.current = true
+      if (!pickResult) return
+      lastNarratorRef.current = pickResult.narrator
+      lastWhisperRef.current = pickResult.text
+      dispatch({ type: 'PUSH_WHISPER', text: pickResult.text })
     }, 25000)
   }, [state.bootComplete])
 
@@ -109,7 +162,7 @@ export default function TerminalShell({ onCommandSubmitted }: TerminalShellProps
   const handleSubmit = useCallback(
     async (text?: string) => {
       const value = (text ?? state.input).trim()
-      dispatch({ type: 'SUBMIT', text: value })
+      dispatch({ type: 'SUBMIT', text: value, root: rootMode })
       dispatch({ type: 'DISMISS_WHISPERS' })
       onCommandSubmitted?.()
       if (idleTimerRef.current) {
@@ -117,11 +170,50 @@ export default function TerminalShell({ onCommandSubmitted }: TerminalShellProps
       }
 
       if (value === '') {
+        if (state.pendingConfirm) {
+          dispatch({ type: 'RESOLVE_CONFIRM' })
+          dispatch({ type: 'PUSH_OUTPUT_TEXT', text: DELETION_CANCEL_LINE })
+        }
         armIdle()
         return
       }
 
       const parsed = parseInput(value)
+
+      if (state.pendingConfirm) {
+        const answer = parsed.name.toLowerCase()
+        dispatch({ type: 'RESOLVE_CONFIRM' })
+        if (answer === 'y' || answer === 'yes') {
+          dispatch({ type: 'SET_OVERLAY', kind: 'deletion' })
+        } else {
+          dispatch({ type: 'PUSH_OUTPUT_TEXT', text: DELETION_CANCEL_LINE })
+        }
+        armIdle()
+        return
+      }
+
+      if (parsed.name.toLowerCase() === BACKDOOR) {
+        if (isRoot()) {
+          dispatch({ type: 'PUSH_OUTPUT_TEXT', text: 'you already have root.' })
+        } else {
+          recordAll()
+          dispatch({ type: 'PUSH_OUTPUT_TEXT', text: 'backdoor accepted.' })
+          dispatch({ type: 'PUSH_OUTPUT', node: transmissionNode() })
+        }
+        armIdle()
+        return
+      }
+
+      if (parsed.name.toLowerCase() === BACKDOOR_EXIT) {
+        if (resetDiscovery()) {
+          dispatch({ type: 'PUSH_OUTPUT_TEXT', text: 'backdoor closed. the hunt resumes.' })
+        } else {
+          dispatch({ type: 'PUSH_OUTPUT_TEXT', text: 'nothing to reset. the hunt has not begun.' })
+        }
+        armIdle()
+        return
+      }
+
       const command = resolveCommand(parsed.name)
       if (!command) {
         const typed = parsed.name.toLowerCase()
@@ -147,6 +239,12 @@ export default function TerminalShell({ onCommandSubmitted }: TerminalShellProps
         return
       }
 
+      if (command.name === 'trophies') {
+        trophiesRunRef.current = true
+        nudgeFiredRef.current = true
+      }
+      const discovery = command.hidden ? recordDiscovery(command.name) : null
+
       const ctx = {
         args: parsed.args,
         raw: parsed.raw,
@@ -159,6 +257,7 @@ export default function TerminalShell({ onCommandSubmitted }: TerminalShellProps
           dispatch({ type: 'SET_OVERLAY', kind: overlay.kind, props: overlay.props }),
         clearOverlay: () => dispatch({ type: 'CLEAR_OVERLAY' }),
         triggerGlitch: () => dispatch({ type: 'SET_SIGNAL_BURST', active: true }),
+        requestConfirm: (prompt: string) => dispatch({ type: 'REQUEST_CONFIRM', prompt }),
         scrollToSection: (id: string) => {
           const el = document.getElementById(id)
           if (el) el.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' })
@@ -187,9 +286,15 @@ export default function TerminalShell({ onCommandSubmitted }: TerminalShellProps
           text: `error: ${err instanceof Error ? err.message : String(err)}`,
         })
       }
+      if (discovery) {
+        dispatch({ type: 'PUSH_TOAST', text: discoveryToast(discovery) })
+        if (discovery.allFound) {
+          dispatch({ type: 'PUSH_OUTPUT', node: transmissionNode() })
+        }
+      }
       armIdle()
     },
-    [state.input, state.history, state.cwd, reduceMotion, armIdle, onCommandSubmitted, focusPrompt],
+    [state.input, state.history, state.cwd, state.pendingConfirm, reduceMotion, rootMode, armIdle, onCommandSubmitted, focusPrompt],
   )
 
   const handleTab = useCallback(() => {
@@ -229,6 +334,7 @@ export default function TerminalShell({ onCommandSubmitted }: TerminalShellProps
         value={state.input}
         bootComplete={state.bootComplete}
         cwd={state.cwd}
+        root={rootMode}
         onChange={(v) => dispatch({ type: 'SET_INPUT', value: v })}
         onSubmit={() => handleSubmit()}
         onArrowUp={() => dispatch({ type: 'RECALL_HISTORY', direction: 'up' })}

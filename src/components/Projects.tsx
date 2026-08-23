@@ -35,7 +35,7 @@ const projects: Project[] = [
     name: 'Cam-Spy',
     description:
       'An interactive world map aggregating 30,000+ publicly accessible webcams from dozens of open data agencies, with search, filtering, and location-based discovery.',
-    tags: ['JSX', 'React 19 + Vite', 'Leaflet +openStreet', 'React compiler'],
+    tags: ['JSX', 'React 19 + Vite', 'Leaflet + OpenStreetMap', 'React compiler'],
     links: {
       github: 'https://github.com/powpowdan/can-spy',
       live: 'https://global-cam.vercel.app/',
@@ -57,7 +57,7 @@ const projects: Project[] = [
     name: 'Atlas',
     description:
       'A flexible, local-first workout tracker for logging exercises, sets, and progress across custom routines. Built for progressive overload - it surfaces your last and best performance so every set is you vs you.',
-    tags: ['React Native', 'Expo', 'SQLite', 'TypeScript', 'Zustland' ],
+    tags: ['React Native', 'Expo', 'SQLite', 'TypeScript', 'Zustand'],
     links: {
       github: 'https://github.com/powpowdan/atlas',
       live: '',

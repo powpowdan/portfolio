@@ -153,6 +153,7 @@ function secretsCommand(): Command {
     name: 'secrets',
     description: '—',
     hidden: true,
+    category: 'secrets',
     keywords: ['secret', 'secrets', 'hidden', 'easter', 'egg', 'ritual', 'mystery', 'undiscovered'],
     man: {
       description: 'A nudge toward the hidden.',

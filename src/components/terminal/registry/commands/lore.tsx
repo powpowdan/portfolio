@@ -20,6 +20,7 @@ function kitchenCommand(): Command {
     name: 'kitchen',
     description: '—',
     hidden: true,
+    category: 'lore',
     keywords: ['past', 'old', 'before', 'chef', 'food', 'cooking', 'history', 'life', 'story', 'kitchen'],
     man: {
       description: 'The old life. Before the deck.',
@@ -34,6 +35,7 @@ function trainCommand(): Command {
     name: 'train',
     description: '—',
     hidden: true,
+    category: 'lore',
     keywords: ['fight', 'martial', 'combat', 'box', 'muay', 'gym', 'strong', 'body', 'train'],
     man: {
       description: 'The other practice.',
@@ -48,6 +50,7 @@ function command1111(): Command {
     name: '1111',
     description: '—',
     hidden: true,
+    category: 'lore',
     keywords: ['1111', '11', 'wish', 'secret', 'sign', 'sync', 'magic', 'luck'],
     man: {
       description: 'A secret transmission.',
@@ -62,6 +65,7 @@ function breatheCommand(): Command {
     name: 'breathe',
     description: '—',
     hidden: true,
+    category: 'lore',
     keywords: ['calm', 'breathe', 'meditate', 'relax', 'still', 'peace', 'slow', 'breath'],
     man: {
       description: 'Open a breathing overlay.',

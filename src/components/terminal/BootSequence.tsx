@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import Typing from './Typing'
 import { buildBootStream, rollBoot } from '../../lib/terminal/boot'
-import { readFlag, writeFlag } from '../../lib/terminal/storage'
+import { readFlag, writeFlag, BOOT_SEEN_KEY } from '../../lib/terminal/storage'
 import { drainStream } from './utils'
 import type { TypingChunk } from './registry/types'
 
@@ -12,7 +12,7 @@ interface BootSequenceProps {
 }
 
 export default function BootSequence({ onComplete }: BootSequenceProps) {
-  const returning = useMemo(() => readFlag('bootSeen'), [])
+  const returning = useMemo(() => readFlag(BOOT_SEEN_KEY), [])
   const rolls = useMemo(() => rollBoot(), [])
   const [chunks, setChunks] = useState<TypingChunk[] | null>(null)
   const [done, setDone] = useState(false)
@@ -35,7 +35,7 @@ export default function BootSequence({ onComplete }: BootSequenceProps) {
 
   useEffect(() => {
     if (done) {
-      writeFlag('bootSeen', true)
+      writeFlag(BOOT_SEEN_KEY, true)
       onComplete()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

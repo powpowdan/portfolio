@@ -7,6 +7,7 @@ import BreatheOverlay from './BreatheOverlay'
 import MatrixRainOverlay from './MatrixRainOverlay'
 import WickDesatOverlay from './WickDesatOverlay'
 import DriveWashOverlay from './DriveWashOverlay'
+import DeletionOverlay from './DeletionOverlay'
 
 interface OverlayHostProps {
   overlay: ActiveOverlay
@@ -14,13 +15,16 @@ interface OverlayHostProps {
 }
 
 export default function OverlayHost({ overlay, onDismiss }: OverlayHostProps) {
+  const dismissable = overlay.kind !== 'deletion'
+
   useEffect(() => {
+    if (!dismissable) return
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onDismiss()
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [onDismiss])
+  }, [onDismiss, dismissable])
 
   let content: ReactNode = null
   switch (overlay.kind) {
@@ -35,6 +39,9 @@ export default function OverlayHost({ overlay, onDismiss }: OverlayHostProps) {
       break
     case 'drive':
       content = <DriveWashOverlay onDismiss={onDismiss} />
+      break
+    case 'deletion':
+      content = <DeletionOverlay />
       break
     default:
       content = null

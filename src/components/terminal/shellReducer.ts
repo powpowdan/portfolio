@@ -4,10 +4,11 @@ import { MAX_WHISPERS, otherWhisper } from '../../lib/terminal/content/whispers'
 
 export interface ShellLine {
   id: string
-  kind: 'prompt' | 'output' | 'whisper'
+  kind: 'prompt' | 'output' | 'whisper' | 'toast'
   text?: string
   node?: ReactNode
   cwd?: string
+  root?: boolean
 }
 
 export interface ShellState {
@@ -20,6 +21,7 @@ export interface ShellState {
   bootVisible: boolean
   signalBurst: boolean
   cwd: string
+  pendingConfirm: { prompt: string } | null
 }
 
 export const initialState: ShellState = {
@@ -32,6 +34,7 @@ export const initialState: ShellState = {
   bootVisible: true,
   signalBurst: false,
   cwd: '~',
+  pendingConfirm: null,
 }
 
 let lineIdCounter = 0
@@ -42,10 +45,13 @@ export function nextLineId(): string {
 
 export type Action =
   | { type: 'SET_INPUT'; value: string }
-  | { type: 'SUBMIT'; text: string }
+  | { type: 'SUBMIT'; text: string; root?: boolean }
   | { type: 'PUSH_OUTPUT'; node: ReactNode }
   | { type: 'PUSH_OUTPUT_TEXT'; text: string }
+  | { type: 'PUSH_TOAST'; text: string }
   | { type: 'PUSH_WHISPER'; text: string }
+  | { type: 'REQUEST_CONFIRM'; prompt: string }
+  | { type: 'RESOLVE_CONFIRM' }
   | { type: 'DISMISS_WHISPERS' }
   | { type: 'CLEAR' }
   | { type: 'RECALL_HISTORY'; direction: 'up' | 'down' }
@@ -67,6 +73,7 @@ export function shellReducer(state: ShellState, action: Action): ShellState {
         kind: 'prompt',
         text: action.text,
         cwd: state.cwd,
+        root: action.root ?? false,
       }
       const filtered = action.text.trim() === '' ? state.history : [...state.history, action.text]
       return {
@@ -87,6 +94,19 @@ export function shellReducer(state: ShellState, action: Action): ShellState {
       const line: ShellLine = { id: nextLineId(), kind: 'output', text: action.text }
       return { ...state, lines: [...state.lines, line] }
     }
+
+    case 'PUSH_TOAST': {
+      const line: ShellLine = { id: nextLineId(), kind: 'toast', text: action.text }
+      return { ...state, lines: [...state.lines, line] }
+    }
+
+    case 'REQUEST_CONFIRM': {
+      const line: ShellLine = { id: nextLineId(), kind: 'output', text: action.prompt }
+      return { ...state, lines: [...state.lines, line], pendingConfirm: { prompt: action.prompt } }
+    }
+
+    case 'RESOLVE_CONFIRM':
+      return { ...state, pendingConfirm: null }
 
     case 'PUSH_WHISPER': {
       const whisperIndices: number[] = []

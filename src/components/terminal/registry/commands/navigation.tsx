@@ -29,8 +29,7 @@ const CAT_CONTENT: Record<Section, string> = {
     'focus: full-stack · mobile · local-first · linux & self-hosting · automation · ai tooling',
     '',
     'role       full-stack developer',
-    'location   ottawa, on',
-    'clearance  secret',
+    'location   ottawa, on', 
     'stack      linux · ts · react · python',
   ].join('\n'),
   projects: [

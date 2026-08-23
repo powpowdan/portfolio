@@ -20,6 +20,7 @@ function filmCommand(name: keyof typeof FILM_PAYLOADS, description: string, keyw
     name,
     description: '—',
     hidden: true,
+    category: 'films',
     keywords,
     man: { description: `Homage to ${name}.` },
     run: (ctx) => {

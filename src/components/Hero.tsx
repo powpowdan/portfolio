@@ -1,13 +1,17 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import TerminalShell from './terminal/TerminalShell'
 import NameReveal from './terminal/effects/NameReveal'
+import { isRoot, subscribe } from '../lib/terminal/discovery'
 
 export default function Hero() {
   const [nameDone, setNameDone] = useState(false)
   const [showTerminal, setShowTerminal] = useState(false)
+  const [rootMode, setRootMode] = useState(false)
+
+  useEffect(() => subscribe(() => setRootMode(isRoot())), [])
 
   useEffect(() => {
     if (!nameDone) return
@@ -34,13 +38,23 @@ export default function Hero() {
         </div>
 
         {showTerminal && (
-          <div className="glitch-in border border-white/[0.06] rounded-lg p-3 sm:p-4 bg-black/40 backdrop-blur-sm">
+          <div
+            className={`glitch-in rounded-lg p-3 sm:p-4 bg-black/40 backdrop-blur-sm border transition-[border-color,box-shadow] duration-700 ${
+              rootMode
+                ? 'border-accentRoot/25 shadow-[0_0_50px_rgba(255,200,87,0.07)]'
+                : 'border-white/[0.06]'
+            }`}
+          >
             <div className="flex items-center gap-2 mb-3 pb-2 border-b border-white/[0.04]">
-              <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
-              <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
-              <span className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
-              <span className="ml-2 text-[10px] font-mono text-muted chromatic-hover">
-                dan@portfolio.sh: ~
+              <span className={`w-2.5 h-2.5 rounded-full transition-colors duration-700 ${rootMode ? 'bg-amber-200/70' : 'bg-red-500/80'}`} />
+              <span className={`w-2.5 h-2.5 rounded-full transition-colors duration-700 ${rootMode ? 'bg-accentRoot/80' : 'bg-yellow-500/80'}`} />
+              <span className={`w-2.5 h-2.5 rounded-full transition-colors duration-700 ${rootMode ? 'bg-amber-600/70' : 'bg-green-500/80'}`} />
+              <span
+                className={`ml-2 text-[10px] font-mono chromatic-hover transition-colors duration-700 ${
+                  rootMode ? 'text-accentRoot/80' : 'text-muted'
+                }`}
+              >
+                {rootMode ? 'root@portfolio.sh: ~' : 'dan@portfolio.sh: ~'}
               </span>
             </div>
             <TerminalShell />
