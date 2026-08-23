@@ -4,7 +4,7 @@ export const NOW_POOL: { k: string; vs: string[] }[] = [
     vs: [
       'linux servers · AWS',
       'AWS · infrastructure',
-      'old linux + new cloud',
+      'linux + cloud',
       'the stack beneath the stack',
     ],
   },
@@ -14,6 +14,7 @@ export const NOW_POOL: { k: string; vs: string[] }[] = [
       'a homelab — proxmox · docker · jellyfin',
       'self-hosted everything',
       'servers of my own',
+      'spinning up a homelab',
       'pi-hole · backups · streaming',
     ],
   },
@@ -21,8 +22,8 @@ export const NOW_POOL: { k: string; vs: string[] }[] = [
     k: 'training',
     vs: [
       'muay thai fighters',
-      'fighters · eight limbs · breath',
-      'the other practice',
+      'fighters · eight limbs · breathe',
+      'the other practice, mats and heavybags',
       'muay thai · round by round',
     ],
   },
@@ -40,7 +41,7 @@ export const NOW_POOL: { k: string; vs: string[] }[] = [
     vs: [
       'bike to work, every day',
       'pedals, not gas',
-      'the commute, by bike',
+      '5am sunrise on the bike',
       'two wheels · every morning',
     ],
   },

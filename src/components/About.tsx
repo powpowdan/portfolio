@@ -16,7 +16,7 @@ const meta = [
   { k: 'role', v: 'Full-Stack Developer' },
   { k: 'location', v: 'Ottawa, ON' },
   { k: 'clearance', v: 'Secret' },
-  { k: 'stack', v: 'TS · React · Python · Linux' },
+  { k: 'stack', v: 'TypeScript · React · Python · Linux' },
 ]
 
 export default function About() {
@@ -47,10 +47,9 @@ export default function About() {
             <p>
               <span className="text-accent font-mono">night</span>
               <span className="mx-2 text-white/20">—</span>
-              Driven by passion and curiosity, powered by Linux and AI. Apps,
+              Driven by problem-solving and curiosity, powered by Linux and AI. Apps,
               servers, automations, and custom software for myself and the
-              world. A growing homelab — Proxmox, Docker, Pi-hole, Jellyfin,
-              photo backups — always experimenting.
+              world. Currently experimenting with a growing homelab: Proxmox, Docker, Pi-hole, Jellyfin, and automated backups.
             </p>
           </div>
 
