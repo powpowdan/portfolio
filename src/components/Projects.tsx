@@ -63,6 +63,19 @@ const projects: Project[] = [
       live: '',
     },
   },
+  {
+    title: 'The Reddit Profiler',
+    name: 'Aura',
+    description:
+      "A personality analyzer that reads any Reddit username's public history and deduces who they are — an LLM-written 'who am I' essay plus a stats dashboard covering subreddit distribution, activity heatmaps, best and worst posts, and word frequency.",
+    tags: ['React 18 + Vite',
+    'Gemini API',
+    'Vercel Serverless',],
+    links: {
+      github: 'https://github.com/powpowdan/reddit-aura',
+      live: 'https://reddit-aura.vercel.app/',
+    },
+  },
 ]
 
 export default function Projects() {

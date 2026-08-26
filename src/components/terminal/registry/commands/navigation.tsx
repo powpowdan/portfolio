@@ -37,6 +37,7 @@ const CAT_CONTENT: Record<Section, string> = {
     'the global camera network → cam-spy             react 19 · leaflet · vite',
     'the class builder → cadence                     react 19 · vite 7 · supabase',
     'the workout tracker → atlas                     react native · expo · sqlite',
+    'the reddit profiler → aura                      react 18 · vite · gemini',
     '',
     '(use `cd projects` to view full cards)',
   ].join('\n'),
