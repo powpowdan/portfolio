@@ -22,6 +22,7 @@ import {
   resetDiscovery,
   subscribe,
   HIDDEN_TOTAL,
+  type Category,
 } from '../../lib/terminal/discovery'
 import {
   discoveryToast,
@@ -73,6 +74,7 @@ export default function TerminalShell({ onCommandSubmitted }: TerminalShellProps
   const lastNarratorRef = useRef(false)
   const lastWhisperRef = useRef<string | undefined>(undefined)
   const trophiesRunRef = useRef(false)
+  const whisperedCatsRef = useRef<Set<Category>>(new Set())
 
   useEffect(() => subscribe(() => setRootMode(isRoot())), [])
 
@@ -86,6 +88,7 @@ export default function TerminalShell({ onCommandSubmitted }: TerminalShellProps
           lastWasNarrator: lastNarratorRef.current,
           trophiesRun: trophiesRunRef.current,
           lastWhisper: lastWhisperRef.current,
+          whisperedCategories: whisperedCatsRef.current,
         },
         getProgress(),
       )
@@ -93,6 +96,7 @@ export default function TerminalShell({ onCommandSubmitted }: TerminalShellProps
       if (!pickResult) return
       lastNarratorRef.current = pickResult.narrator
       lastWhisperRef.current = pickResult.text
+      if (pickResult.category) whisperedCatsRef.current.add(pickResult.category)
       dispatch({ type: 'PUSH_WHISPER', text: pickResult.text })
     }, 25000)
   }, [state.bootComplete])

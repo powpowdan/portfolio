@@ -35,8 +35,8 @@ export function nudgeLine(p: Progress): string {
 
 export const CATEGORY_HINTS: Record<Category, string> = {
   lore: 'the lore holds more than two stories.',
-  films: 'the films are missing a few reels.',
-  gags: 'the gags have gaps. terminals love jokes.',
+  films: 'films somewhere in here',
+  gags: 'terminals love jokes.',
   secrets: 'a secret is still being kept.',
 }
 
@@ -51,11 +51,13 @@ export interface WhisperSession {
   lastWasNarrator: boolean
   trophiesRun: boolean
   lastWhisper?: string
+  whisperedCategories: ReadonlySet<Category>
 }
 
 export interface WhisperPick {
   text: string
   narrator: boolean
+  category?: Category
 }
 
 export function nextWhisper(session: WhisperSession, p: Progress): WhisperPick | null {
@@ -71,10 +73,12 @@ export function nextWhisper(session: WhisperSession, p: Progress): WhisperPick |
     if (remaining <= p.hiddenTotal - 17) {
       return { text: lateGameLine(remaining), narrator: true }
     }
-    const open: CategoryProgress[] = p.categories.filter((c) => c.missing > 0)
-    if (open.length > 0) {
-      const c = pick(open)
-      return { text: CATEGORY_HINTS[c.category], narrator: true }
+    const unwhispered: CategoryProgress[] = p.categories.filter(
+      (c) => c.missing > 0 && !session.whisperedCategories.has(c.category),
+    )
+    if (unwhispered.length > 0 && Math.random() < 0.5) {
+      const c = pick(unwhispered)
+      return { text: CATEGORY_HINTS[c.category], narrator: true, category: c.category }
     }
   }
   return { text: otherWhisper(session.lastWhisper), narrator: false }
