@@ -41,6 +41,13 @@ export const ROY_BATTY_MONOLOGUE: string =
   'I watched C-beams glitter in the dark near the Tannhauser gate. ' +
   'All those moments will be lost in time, like tears in rain. Time to die.'
 
+export const GHOST_PURGES: { cmd: string; out: string }[] = [
+  { cmd: 'shred whispers.log', out: '4 whispers forgotten.' },
+  { cmd: '> /var/log/whispers', out: 'log truncated. what log?' },
+  { cmd: 'history -c', out: 'what whispers?' },
+  { cmd: 'rm .whisper_cache', out: 'cache cleared. this never happened.' },
+]
+
 export function otherWhisper(currentText?: string): string {
   if (IDLE_WHISPERS.length <= 1) return IDLE_WHISPERS[0]
   let pick = IDLE_WHISPERS[Math.floor(Math.random() * IDLE_WHISPERS.length)]

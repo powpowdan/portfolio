@@ -13,7 +13,7 @@ import { parseInput, type CommandOutput, type ActiveOverlay } from './registry/t
 import Typing from './Typing'
 import { isTypingStream, drainStream } from './utils'
 import { pick } from '../../lib/terminal/random'
-import { AWAY_TITLES } from '../../lib/terminal/content/whispers'
+import { AWAY_TITLES, GHOST_PURGES, MAX_WHISPERS } from '../../lib/terminal/content/whispers'
 import {
   getProgress,
   isRoot,
@@ -93,13 +93,43 @@ export default function TerminalShell({ onCommandSubmitted }: TerminalShellProps
         getProgress(),
       )
       nudgeFiredRef.current = true
-      if (!pickResult) return
-      lastNarratorRef.current = pickResult.narrator
-      lastWhisperRef.current = pickResult.text
-      if (pickResult.category) whisperedCatsRef.current.add(pickResult.category)
-      dispatch({ type: 'PUSH_WHISPER', text: pickResult.text })
+      if (pickResult) {
+        lastNarratorRef.current = pickResult.narrator
+        lastWhisperRef.current = pickResult.text
+        if (pickResult.category) whisperedCatsRef.current.add(pickResult.category)
+
+        const whisperCount = state.lines.filter((l) => l.kind === 'whisper').length
+        if (whisperCount >= MAX_WHISPERS && Math.random() < 0.25) {
+          const purge = pick(GHOST_PURGES)
+          dispatch({
+            type: 'PUSH_OUTPUT',
+            node: (
+              <div className="flex items-start font-mono text-sm sm:text-base">
+                <span className={`${rootMode ? 'text-accentRoot' : 'text-accent'} mr-2 select-none`}>
+                  {state.cwd}
+                  {rootMode ? ' #' : ' $'}
+                  {'\u00A0'}
+                </span>
+                <span className="text-white/90">
+                  <Typing
+                    chunks={[{ text: purge.cmd }]}
+                    speed={45}
+                    onDone={() => {
+                      dispatch({ type: 'DISMISS_WHISPERS' })
+                      dispatch({ type: 'PUSH_OUTPUT_TEXT', text: purge.out })
+                    }}
+                  />
+                </span>
+              </div>
+            ),
+          })
+        } else {
+          dispatch({ type: 'PUSH_WHISPER', text: pickResult.text })
+        }
+      }
+      armIdle()
     }, 25000)
-  }, [state.bootComplete])
+  }, [state.bootComplete, state.lines, state.cwd, rootMode])
 
   useEffect(() => {
     armIdle()
@@ -153,7 +183,7 @@ export default function TerminalShell({ onCommandSubmitted }: TerminalShellProps
       const now = new Date()
       if (now.getHours() === 11 && now.getMinutes() === 11) {
         oneOneOneFiredRef.current = true
-        dispatch({ type: 'PUSH_WHISPER', text: '11:11 — make the wish.' })
+        dispatch({ type: 'PUSH_WHISPER', text: '11:11 — make a wish!' })
       }
     }
     check1111()
