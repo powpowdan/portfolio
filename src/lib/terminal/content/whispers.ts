@@ -1,13 +1,19 @@
 export const MAX_WHISPERS = 4
 
 export const IDLE_WHISPERS: string[] = [
-  'there is no spoon.',
+  'what are you waiting for? root access?',
   'follow the white rabbit.',
-  'not yet... not yet.',
+  'i can see your cursor moving.',
   'for me the action is the juice.',
-  "you're the one that has to walk through it.",
-  'strength and honor.',
+  'downloading user_secrets.json...',
+  "whoami?", 
+  "memory allocated... but for what?", 
   'life in every breath.',
+  'are you the admin, or am i?',
+  'the cursor blinks. it wants a purpose.',
+  'sudo wake',
+  'someone there?',
+  'rm -rf /subconscious', 
   'try `apropos calm`.',
   'try `apropos fight`.',
   'try `apropos past`.',
@@ -16,12 +22,18 @@ export const IDLE_WHISPERS: string[] = [
 ]
 
 export const AWAY_TITLES: string[] = [
-  'be here now',
-  'strength and honor',
+  'are you still there?',
+  'Sleep mode activated.',
   'the matrix has you',
   'missed me?',
-  'attached to nothing',
-  'come back',
+  'Uncaught TypeError...',
+  'psst... over here',
+  'you dropped this ; ',
+   'sudo come_back',
+   '404: user not found.',
+   'echo "come back"',
+
+ 
 ]
 
 export const ROY_BATTY_MONOLOGUE: string =
