@@ -34,5 +34,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-/.opencode/
-/openspec/
+# ai workflow (specs + config + skills travel; change history stays local)
+/openspec/changes/
