@@ -7,7 +7,7 @@ import OutputLine from './OutputLine'
 import BootSequence from './BootSequence'
 import OverlayHost from './overlays/OverlayHost'
 import SignalBurst from './overlays/SignalBurst'
-import { shellReducer, initialState } from './shellReducer'
+import { shellReducer, initialState, type ShellLine } from './shellReducer'
 import { resolveCommand, allCommandNames, ALL_COMMANDS } from './registry'
 import { parseInput, type CommandOutput, type ActiveOverlay } from './registry/types'
 import Typing from './Typing'
@@ -101,27 +101,13 @@ export default function TerminalShell({ onCommandSubmitted }: TerminalShellProps
         const whisperCount = state.lines.filter((l) => l.kind === 'whisper').length
         if (whisperCount >= MAX_WHISPERS && Math.random() < 0.25) {
           const purge = pick(GHOST_PURGES)
+          dispatch({ type: 'SWEEP_GHOSTS' })
           dispatch({
-            type: 'PUSH_OUTPUT',
-            node: (
-              <div className="flex items-start font-mono text-sm sm:text-base">
-                <span className={`${rootMode ? 'text-accentRoot' : 'text-accent'} mr-2 select-none`}>
-                  {state.cwd}
-                  {rootMode ? ' #' : ' $'}
-                  {'\u00A0'}
-                </span>
-                <span className="text-white/90">
-                  <Typing
-                    chunks={[{ text: purge.cmd }]}
-                    speed={45}
-                    onDone={() => {
-                      dispatch({ type: 'DISMISS_WHISPERS' })
-                      dispatch({ type: 'PUSH_OUTPUT_TEXT', text: purge.out })
-                    }}
-                  />
-                </span>
-              </div>
-            ),
+            type: 'PUSH_GHOST_ECHO',
+            cmd: purge.cmd,
+            punch: purge.out,
+            cwd: state.cwd,
+            root: rootMode,
           })
         } else {
           dispatch({ type: 'PUSH_WHISPER', text: pickResult.text })
@@ -193,11 +179,21 @@ export default function TerminalShell({ onCommandSubmitted }: TerminalShellProps
 
   const focusPrompt = useCallback(() => focusRef.current(), [])
 
+  const handleGhostTyped = useCallback((line: ShellLine) => {
+    dispatch({ type: 'DISMISS_WHISPERS' })
+    if (line.ghost?.punch) dispatch({ type: 'PUSH_GHOST_PUNCH', text: line.ghost.punch })
+  }, [])
+
+  const handleGhostReap = useCallback((id: string) => {
+    dispatch({ type: 'REMOVE_LINE', id })
+  }, [])
+
   const handleSubmit = useCallback(
     async (text?: string) => {
       const value = (text ?? state.input).trim()
       dispatch({ type: 'SUBMIT', text: value, root: rootMode })
       dispatch({ type: 'DISMISS_WHISPERS' })
+      dispatch({ type: 'DISMISS_GHOSTS' })
       onCommandSubmitted?.()
       if (idleTimerRef.current) {
         clearTimeout(idleTimerRef.current)
@@ -361,7 +357,12 @@ export default function TerminalShell({ onCommandSubmitted }: TerminalShellProps
         className={`terminal-scroll space-y-1.5 max-h-56 overflow-y-auto ${state.lines.length > 0 ? 'mt-1' : ''}`}
       >
         {state.lines.map((line) => (
-          <OutputLine key={line.id} line={line} />
+          <OutputLine
+            key={line.id}
+            line={line}
+            onGhostTyped={handleGhostTyped}
+            onGhostReap={handleGhostReap}
+          />
         ))}
       </div>
       <Prompt
@@ -369,11 +370,23 @@ export default function TerminalShell({ onCommandSubmitted }: TerminalShellProps
         bootComplete={state.bootComplete}
         cwd={state.cwd}
         root={rootMode}
-        onChange={(v) => dispatch({ type: 'SET_INPUT', value: v })}
+        onChange={(v) => {
+          dispatch({ type: 'SET_INPUT', value: v })
+          dispatch({ type: 'DISMISS_GHOSTS' })
+        }}
         onSubmit={() => handleSubmit()}
-        onArrowUp={() => dispatch({ type: 'RECALL_HISTORY', direction: 'up' })}
-        onArrowDown={() => dispatch({ type: 'RECALL_HISTORY', direction: 'down' })}
-        onTab={handleTab}
+        onArrowUp={() => {
+          dispatch({ type: 'RECALL_HISTORY', direction: 'up' })
+          dispatch({ type: 'DISMISS_GHOSTS' })
+        }}
+        onArrowDown={() => {
+          dispatch({ type: 'RECALL_HISTORY', direction: 'down' })
+          dispatch({ type: 'DISMISS_GHOSTS' })
+        }}
+        onTab={() => {
+          handleTab()
+          dispatch({ type: 'DISMISS_GHOSTS' })
+        }}
         registerFocus={(f) => {
           focusRef.current = f
         }}

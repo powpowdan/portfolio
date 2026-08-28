@@ -2,6 +2,13 @@ import type { ReactNode } from 'react'
 import type { ActiveOverlay, OverlayKind, OverlayProps } from './registry/types'
 import { MAX_WHISPERS } from '../../lib/terminal/content/whispers'
 
+export interface GhostMeta {
+  role: 'echo' | 'punch'
+  cmd?: string
+  punch?: string
+  dying?: boolean
+}
+
 export interface ShellLine {
   id: string
   kind: 'prompt' | 'output' | 'whisper' | 'toast'
@@ -9,6 +16,7 @@ export interface ShellLine {
   node?: ReactNode
   cwd?: string
   root?: boolean
+  ghost?: GhostMeta
 }
 
 export interface ShellState {
@@ -53,6 +61,11 @@ export type Action =
   | { type: 'REQUEST_CONFIRM'; prompt: string }
   | { type: 'RESOLVE_CONFIRM' }
   | { type: 'DISMISS_WHISPERS' }
+  | { type: 'DISMISS_GHOSTS' }
+  | { type: 'SWEEP_GHOSTS' }
+  | { type: 'REMOVE_LINE'; id: string }
+  | { type: 'PUSH_GHOST_ECHO'; cmd: string; punch: string; cwd: string; root?: boolean }
+  | { type: 'PUSH_GHOST_PUNCH'; text: string }
   | { type: 'CLEAR' }
   | { type: 'RECALL_HISTORY'; direction: 'up' | 'down' }
   | { type: 'SET_OVERLAY'; kind: OverlayKind | null; props?: OverlayProps }
@@ -95,6 +108,27 @@ export function shellReducer(state: ShellState, action: Action): ShellState {
       return { ...state, lines: [...state.lines, line] }
     }
 
+    case 'PUSH_GHOST_ECHO': {
+      const line: ShellLine = {
+        id: nextLineId(),
+        kind: 'output',
+        cwd: action.cwd,
+        root: action.root ?? false,
+        ghost: { role: 'echo', cmd: action.cmd, punch: action.punch },
+      }
+      return { ...state, lines: [...state.lines, line] }
+    }
+
+    case 'PUSH_GHOST_PUNCH': {
+      const line: ShellLine = {
+        id: nextLineId(),
+        kind: 'output',
+        text: action.text,
+        ghost: { role: 'punch' },
+      }
+      return { ...state, lines: [...state.lines, line] }
+    }
+
     case 'PUSH_TOAST': {
       const line: ShellLine = { id: nextLineId(), kind: 'toast', text: action.text }
       return { ...state, lines: [...state.lines, line] }
@@ -124,6 +158,27 @@ export function shellReducer(state: ShellState, action: Action): ShellState {
 
     case 'DISMISS_WHISPERS':
       return { ...state, lines: state.lines.filter((l) => l.kind !== 'whisper') }
+
+    case 'DISMISS_GHOSTS': {
+      let marked = false
+      const lines = state.lines.map((l) => {
+        if (l.ghost && !l.ghost.dying) {
+          marked = true
+          return { ...l, ghost: { ...l.ghost, dying: true } }
+        }
+        return l
+      })
+      if (!marked) return state
+      return { ...state, lines }
+    }
+
+    case 'SWEEP_GHOSTS': {
+      if (!state.lines.some((l) => l.ghost)) return state
+      return { ...state, lines: state.lines.filter((l) => !l.ghost) }
+    }
+
+    case 'REMOVE_LINE':
+      return { ...state, lines: state.lines.filter((l) => l.id !== action.id) }
 
     case 'CLEAR':
       return { ...state, lines: [], bootVisible: false }
