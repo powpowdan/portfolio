@@ -21,6 +21,8 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 Test edit from phone.
 
+Test edit from docker container.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
